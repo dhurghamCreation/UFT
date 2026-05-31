@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UFT | Event Detail</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#ff5100;--primary-dark:#cc4100;--secondary:#002d5a;--accent:#00f2ff;--text:#1e293b;--muted:#64748b;--bg:#f8fafc;--white:#fff;--border:#e2e8f0;--dark:#0f172a;--success:#10b981}
+*{box-sizing:border-box}body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(180deg,#fff,#f8fafc 45%,#eef4fb);color:var(--text)}a{text-decoration:none;color:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:12px;border:none;font:inherit;font-weight:800;cursor:pointer;transition:.25s;text-decoration:none}.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff}.btn-soft{background:#fff;border:1px solid var(--border);color:var(--secondary)}.btn:hover{transform:translateY(-2px)}
+.shell{max-width:1160px;margin:0 auto;padding:0 6%}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,232,240,.9)}
+.nav{height:66px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px}.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;display:grid;place-items:center}.brand-text strong{display:block;color:var(--secondary)}.brand-text span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
+.hero{padding:34px 0 24px}.hero-card{background:linear-gradient(135deg,rgba(0,45,90,.98),rgba(15,23,42,.95));color:#fff;border-radius:28px;padding:28px;overflow:hidden;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.14)}
+.hero-card::before{content:'';position:absolute;inset:0;background:var(--hero) center/cover no-repeat;opacity:.13}.hero-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,45,90,.85),rgba(15,23,42,.9))}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr .92fr;gap:24px;align-items:center}.badge{display:inline-block;padding:7px 14px;border-radius:999px;background:rgba(255,81,0,.18);color:var(--accent);font-size:.72rem;font-weight:900;letter-spacing:2px;margin-bottom:12px}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2.1rem,5vw,4.1rem);line-height:1.05;margin:0 0 14px}p{line-height:1.8;color:var(--muted)}.hero-card p{color:rgba(255,255,255,.9)}
+.event-photo{display:flex;justify-content:center}.event-photo img{width:min(360px,100%);aspect-ratio:1/1.1;object-fit:cover;border-radius:28px 50% 28px 50%;border:10px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.actions .btn-soft{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.16)}
+.grid{display:grid;gap:18px}.two-col{grid-template-columns:1fr .9fr;align-items:start}.card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}.stat{background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:14px}.stat strong{display:block;color:var(--secondary);font-size:1.2rem}.stat span{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.section h2{color:var(--secondary);font-size:1.45rem;margin:0 0 10px}.list{padding-left:18px;color:var(--muted);line-height:1.85}.agenda{display:grid;gap:10px}.agenda-item{display:grid;grid-template-columns:84px 1fr;gap:12px;align-items:start;border:1px solid var(--border);border-radius:14px;padding:14px;background:#fff}.agenda-item strong{display:block;color:var(--primary);font-size:.75rem;letter-spacing:1px;text-transform:uppercase}
+.gallery{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}.gallery .img{min-height:220px;border-radius:16px;overflow:hidden;position:relative}.gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}.gallery .img:hover img{transform:scale(1.07)}.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.72));display:flex;align-items:flex-end;padding:12px;color:#fff;font-weight:800}
+.note{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:14px;color:#9a3412}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tab{padding:9px 12px;border-radius:999px;background:#fff;border:1px solid var(--border);font-weight:800;color:var(--secondary);cursor:pointer}.tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tab-panel{display:none;margin-top:14px}.tab-panel.active{display:block}
+footer{padding:26px 0 40px;text-align:center;color:var(--muted)}
+@media (max-width:900px){.hero-inner,.two-col,.gallery{grid-template-columns:1fr}.shell{padding:0 5%}.event-photo img{max-width:300px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="shell nav">
+    <a class="brand" href="section-view.html?section=events"><div class="brand-mark"><i class="fas fa-calendar-day"></i></div><div class="brand-text"><strong>UFT University</strong><span>Event Detail</span></div></a>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><a id="backToEventsBtn" class="btn btn-soft" href="section-view.html?section=events"><i class="fas fa-arrow-left"></i> Back to Events</a><a id="applyBtn" class="btn btn-primary" href="application.html"><i class="fas fa-file-signature"></i> Apply</a></div>
+  </div>
+</header>
+<main class="shell">
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-inner">
+        <div>
+          <div class="badge">EVENT EXPERIENCE</div>
+          <h1 id="title">Event</h1>
+          <div id="meta" style="font-size:1.05rem;font-weight:800;color:var(--accent);margin-bottom:12px"></div>
+          <p id="summary"></p>
+          <div class="actions">
+            <a id="moreEventsBtn" class="btn btn-primary" href="section-view.html?section=events"><i class="fas fa-calendar-check"></i> More events</a>
+            <a id="prospectusBtn" class="btn btn-soft" href="assets/degrees/UFT_University_Prospectus.pdf" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Prospectus PDF</a>
+          </div>
+        </div>
+        <div class="event-photo"><img id="photo" alt="Event image"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section two-col grid">
+    <div class="card">
+      <h2 id="aboutTitle">What this event is about</h2>
+      <p id="about"></p>
+      <div class="stat-grid" id="stats"></div>
+      <h2 id="audienceTitle" style="margin-top:18px">Who should attend</h2>
+      <ul class="list" id="audience"></ul>
+    </div>
+    <div class="card">
+      <h2 id="agendaTitle">Agenda</h2>
+      <div class="agenda" id="agenda"></div>
+    </div>
+  </section>
+
+  <section class="section card">
+    <h2 id="outcomesTitle">Outcomes and takeaways</h2>
+    <div class="tabs">
+      <button id="tabHighlights" class="tab active" onclick="switchTab('highlights')">Highlights</button>
+      <button id="tabPrepare" class="tab" onclick="switchTab('prepare')">Prepare</button>
+      <button id="tabResults" class="tab" onclick="switchTab('results')">Why it matters</button>
+    </div>
+    <div class="tab-panel active" id="highlights"></div>
+    <div class="tab-panel" id="prepare"></div>
+    <div class="tab-panel" id="results"></div>
+  </section>
+
+  <section class="section card">
+    <h2 id="visualTitle">Visual context</h2>
+    <div class="gallery">
+      <div class="img"><img id="g1" alt="Gallery image"><div class="overlay" id="g1t"></div></div>
+      <div class="img"><img id="g2" alt="Gallery image"><div class="overlay" id="g2t"></div></div>
+    </div>
+    <div class="note" style="margin-top:14px" id="note"></div>
+  </section>
+</main>
+<footer>Version <span id="siteVersion">2026.05.23.4</span> · UFT University · All rights reserved</footer>
+<script>
+const locale = {
+  en: { back: 'Back to Events', apply: 'Apply', more: 'More events', prospectus: 'Prospectus PDF', about: 'What this event is about', audience: 'Who should attend', agenda: 'Agenda', outcomes: 'Outcomes and takeaways', highlights: 'Highlights', prepare: 'Prepare', results: 'Why it matters', visual: 'Visual context' },
+  es: { back: 'Volver a eventos', apply: 'Solicitar', more: 'Más eventos', prospectus: 'Prospecto PDF', about: 'De qué trata este evento', audience: 'Quién debe asistir', agenda: 'Agenda', outcomes: 'Resultados y aprendizajes', highlights: 'Destacados', prepare: 'Preparación', results: 'Por qué importa', visual: 'Contexto visual' },
+  fr: { back: 'Retour aux événements', apply: 'Candidater', more: 'Plus d’événements', prospectus: 'Brochure PDF', about: 'De quoi parle cet événement', audience: 'Qui devrait venir', agenda: 'Programme', outcomes: 'Résultats et points clés', highlights: 'Points forts', prepare: 'Préparer', results: 'Pourquoi c’est important', visual: 'Contexte visuel' },
+  de: { back: 'Zurück zu Veranstaltungen', apply: 'Bewerben', more: 'Weitere Veranstaltungen', prospectus: 'Prospekt PDF', about: 'Worum es bei dieser Veranstaltung geht', audience: 'Wer teilnehmen sollte', agenda: 'Agenda', outcomes: 'Ergebnisse und Erkenntnisse', highlights: 'Höhepunkte', prepare: 'Vorbereiten', results: 'Warum es wichtig ist', visual: 'Visueller Kontext' },
+  pt: { back: 'Voltar para eventos', apply: 'Candidatar', more: 'Mais eventos', prospectus: 'Prospecto PDF', about: 'Sobre este evento', audience: 'Quem deve participar', agenda: 'Programa', outcomes: 'Resultados e conclusões', highlights: 'Destaques', prepare: 'Preparar', results: 'Por que importa', visual: 'Contexto visual' }
+};
+
+const events = {
+  openDay: {
+    title: 'Open Day and Course Expo',
+    date: '2026-05-28',
+    time: '10:00',
+    summary: 'A full campus open day designed to help students compare programmes, meet academics, and see the university in action.',
+    about: 'This is the flagship admissions event. Programme talks explain entry routes, scholarships, placements, and course structure. Admissions staff are on hand for one-to-one guidance, and live labs give visitors a practical look at the learning environment.',
+    photo: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=1200',
+    stats: [['Talks','8+'],['Booths','30+'],['Labs','Live demos'],['Visitors','1,000+']],
+    audience: ['School leavers comparing degree options','Parents and guardians seeking admissions advice','Teachers and advisors supporting applicants','International students wanting visa guidance'],
+    agenda: [['10:00','Registration and welcome'],['10:30','Dean-led course briefing'],['11:15','Admissions and scholarship clinic'],['12:00','Campus and lab tours'],['13:30','Department showcase and Q&A']],
+    highlights: 'You can compare courses side by side, get direct answers from faculty, and leave with a clearer application plan.',
+    prepare: 'Bring a list of questions, your latest results, and any supporting documents you want reviewed by admissions.',
+    results: 'Visitors leave with a personalised shortlist, scholarship guidance, and a practical route into application and payment.',
+    gallery: ['students/Addmission.png','students/demo.png'],
+    galleryText: ['Admissions support desks','Programme exploration and demos'],
+    note: 'Tip: visit the course tables first, then head to the admissions desk to confirm entry requirements and deadlines.'
+  },
+  innovationForum: {
+    title: 'Research and Innovation Forum',
+    date: '2026-06-03',
+    time: '13:00',
+    summary: 'A showcase of faculty and student projects, with funding partners and innovation teams in attendance.',
+    about: 'The forum brings together research labs, industry sponsors, and student teams. Presentations focus on impact, commercialisation, and how projects move from idea to prototype. It is the best place to see where UFT research is going next.',
+    photo: 'https://images.unsplash.com/photo-1560439514-4e9645039924?w=1200',
+    stats: [['Projects','24'],['Partners','12'],['Prototypes','18'],['Sessions','6']],
+    audience: ['Research students and supervisors','Industry partners and investors','Postgraduate applicants','Innovation-focused undergraduates'],
+    agenda: [['13:00','Opening keynote'],['13:20','Student research spotlight'],['14:10','Industry partner panel'],['15:00','Poster and prototype showcase'],['16:15','Funding and collaboration clinic']],
+    highlights: 'Expect high-impact research stories, live demonstrations, and practical conversations about grants and collaboration.',
+    prepare: 'Read the poster abstracts in advance and note which labs or projects you want to follow up on.',
+    results: 'Attendees usually leave with new project partners, funding contacts, and a better view of UFT research culture.',
+    gallery: ['https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200','https://images.unsplash.com/photo-1576086213369-97a306d36557?w=1200'],
+    galleryText: ['Poster sessions and demos','Research lab culture'],
+    note: 'Tip: this is the best event for seeing how research links to study, placements, and commercialization.'
+  },
+  leadershipSummit: {
+    title: 'Student Leadership Summit',
+    date: '2026-06-12',
+    time: '11:00',
+    summary: 'A leadership day for students exploring societies, mentoring, public speaking, and campus leadership opportunities.',
+    about: 'The summit is built around student influence, confidence, and service. Workshops cover leadership styles, event planning, team management, and communication. It also introduces student union pathways and mentoring routes.',
+    photo: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=1200',
+    stats: [['Workshops','5'],['Speakers','10'],['Leaders','200+'],['Clubs','100+']],
+    audience: ['Students interested in societies and representation','Peer mentors and student leaders','Applicants seeking leadership opportunities','Community and volunteering coordinators'],
+    agenda: [['11:00','Opening session and welcome'],['11:30','Leadership skills workshop'],['12:15','Student union and society showcase'],['13:15','Mentoring and networking roundtables'],['14:15','Closing challenge and action plan']],
+    highlights: 'Practical sessions focus on leadership confidence, event delivery, and the student voice.',
+    prepare: 'Think about what kind of leader you want to be and bring one idea you would like to implement on campus.',
+    results: 'You leave with a leadership action plan, society contacts, and a route into mentoring or committee work.',
+    gallery: ['https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200','https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200'],
+    galleryText: ['Leadership coaching','Networking with student societies'],
+    note: 'Tip: perfect for students who want to build confidence before joining clubs, societies, or student government.'
+  },
+  volunteeringWeekend: {
+    title: 'Community Volunteering Weekend',
+    date: '2026-06-20',
+    time: '09:00',
+    summary: 'A service weekend focused on community outreach, school partnerships, and practical volunteering projects.',
+    about: 'Teams work with local schools, charities, and community partners. The weekend blends hands-on service with reflection, so students understand both the impact and the social purpose behind volunteering.',
+    photo: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200',
+    stats: [['Projects','14'],['Partners','9'],['Hours','300+'],['Teams','20']],
+    audience: ['Students interested in service and impact','Clubs seeking volunteering partnerships','New students wanting community connections','Staff and alumni volunteer mentors'],
+    agenda: [['09:00','Volunteer briefing'],['09:30','Community project deployment'],['11:30','School and charity support sessions'],['13:00','Lunch and reflection circle'],['14:00','Wrap-up and next opportunities']],
+    highlights: 'The weekend combines action, service learning, and direct community benefit.',
+    prepare: 'Wear practical clothing, bring water, and be ready to work in teams across different service sites.',
+    results: 'Participants gain service hours, community contacts, and an understanding of how UFT supports social impact.',
+    gallery: ['https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1200','https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1200'],
+    galleryText: ['Community outreach','Volunteering in action'],
+    note: 'Tip: volunteering at UFT is designed as a real learning experience, not just a sign-up sheet.'
+  }
+};
+
+const query = new URLSearchParams(window.location.search);
+const key = query.get('event') || 'openDay';
+const data = events[key] || events.openDay;
+const lang = localStorage.getItem('uftLanguage') || 'en';
+const copy = locale[lang] || locale.en;
+
+document.documentElement.lang = lang;
+document.title = `UFT | ${data.title}`;
+
+document.getElementById('backToEventsBtn').innerHTML = `<i class="fas fa-arrow-left"></i> ${copy.back}`;
+document.getElementById('applyBtn').innerHTML = `<i class="fas fa-file-signature"></i> ${copy.apply}`;
+document.getElementById('moreEventsBtn').innerHTML = `<i class="fas fa-calendar-check"></i> ${copy.more}`;
+document.getElementById('prospectusBtn').innerHTML = `<i class="fas fa-file-pdf"></i> ${copy.prospectus}`;
+document.getElementById('aboutTitle').textContent = copy.about;
+document.getElementById('audienceTitle').textContent = copy.audience;
+document.getElementById('agendaTitle').textContent = copy.agenda;
+document.getElementById('outcomesTitle').textContent = copy.outcomes;
+document.getElementById('visualTitle').textContent = copy.visual;
+document.getElementById('tabHighlights').textContent = copy.highlights;
+document.getElementById('tabPrepare').textContent = copy.prepare;
+document.getElementById('tabResults').textContent = copy.results;
+
+document.getElementById('title').textContent = data.title;
+document.getElementById('meta').textContent = `${data.date} at ${data.time}`;
+document.getElementById('summary').textContent = data.summary;
+document.getElementById('about').textContent = data.about;
+document.getElementById('photo').src = data.photo;
+document.getElementById('stats').innerHTML = data.stats.map(([a,b])=>`<div class="stat"><strong>${b}</strong><span>${a}</span></div>`).join('');
+document.getElementById('audience').innerHTML = data.audience.map(item=>`<li>${item}</li>`).join('');
+document.getElementById('agenda').innerHTML = data.agenda.map(([time, item])=>`<div class="agenda-item"><div><strong>${time}</strong></div><div>${item}</div></div>`).join('');
+document.getElementById('highlights').textContent = data.highlights;
+document.getElementById('prepare').textContent = data.prepare;
+document.getElementById('results').textContent = data.results;
+document.getElementById('g1').src = data.gallery[0];
+document.getElementById('g2').src = data.gallery[1];
+document.getElementById('g1t').textContent = data.galleryText[0];
+document.getElementById('g2t').textContent = data.galleryText[1];
+document.getElementById('note').textContent = data.note;
+function switchTab(id){document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active', ['highlights','prepare','results'][i]===id));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active')}
+</script>
+</body>
+</html>

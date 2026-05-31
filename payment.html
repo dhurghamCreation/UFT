@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UFT | Payment Portal</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#ff5100;--primary-light:#ff7333;--primary-dark:#cc4100;--secondary:#002d5a;--accent:#00f2ff;--text:#1e293b;--text-muted:#64748b;--text-dim:#94a3b8;--dark:#0f172a;--success:#10b981;--gold:#fbbf24;--bg:#f8fafc;--white:#ffffff;--border:#e2e8f0;--hover:#fff7ed}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;scroll-behavior:smooth}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--secondary)}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--primary-light)}
+::selection{background:var(--primary);color:white}
+
+header{background:var(--white);border-bottom:4px solid var(--primary);padding:0 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:4000;box-shadow:0 4px 20px rgba(0,0,0,0.08);height:64px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(255,81,0,0.3)}
+.logo-icon i{color:white;font-size:1.1rem}
+.logo-text div:first-child{font-weight:900;font-size:1.2rem;color:var(--secondary);letter-spacing:-0.5px;line-height:1.2}
+.logo-text div:first-child span{color:var(--primary)}
+.logo-text div:last-child{font-size:0.5rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
+.header-actions{display:flex;gap:8px;align-items:center}
+.lang-switch{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:6px 10px}
+.lang-switch i{color:var(--primary)}
+.lang-switch select{border:none;background:transparent;color:var(--secondary);font-weight:700;outline:none;font-family:inherit;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 22px;border-radius:10px;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.3s ease;border:none;text-decoration:none;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 15px rgba(255,81,0,0.2)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(255,81,0,0.35)}
+.btn-soft{background:var(--bg);color:var(--secondary);border:1px solid var(--border)}
+.btn-soft:hover{background:var(--hover);border-color:var(--primary)}
+.btn-success{background:var(--success);color:white}
+
+.hero-section{background:linear-gradient(135deg,var(--secondary),#001a33);padding:50px 6%;color:white;text-align:center}
+.hero-section .badge{display:inline-block;background:rgba(255,81,0,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);padding:6px 20px;border-radius:50px;font-size:0.7rem;font-weight:700;letter-spacing:2px;margin-bottom:20px;color:var(--accent)}
+.hero-section h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:900;margin-bottom:12px;background:linear-gradient(135deg,#fff,var(--accent));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-section p{max-width:650px;margin:0 auto;color:rgba(255,255,255,0.85);font-size:0.95rem;line-height:1.7}
+
+.container{max-width:1200px;margin:0 auto;padding:40px 6%}
+.breadcrumb{display:flex;gap:10px;align-items:center;font-size:0.85rem;color:var(--text-muted);margin-bottom:25px;flex-wrap:wrap}
+.breadcrumb a{color:var(--primary);text-decoration:none;cursor:pointer}
+.breadcrumb a:hover{text-decoration:underline}
+
+.layout-grid{display:grid;grid-template-columns:1.2fr 0.8fr;gap:30px;align-items:start}
+.card{background:var(--white);border-radius:16px;padding:28px;border:1px solid var(--border);box-shadow:0 4px 15px rgba(0,0,0,0.03);transition:0.3s}
+.card:hover{box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+.card h2{font-size:1.3rem;color:var(--secondary);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.card h2 i{color:var(--primary)}
+.card h3{font-size:1.1rem;color:var(--secondary);margin-bottom:15px;display:flex;align-items:center;gap:10px}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:6px}
+.field label{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);font-weight:700}
+.field input,.field select{width:100%;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);padding:11px 14px;font:inherit;outline:none;transition:0.3s;font-size:0.9rem}
+.field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(255,81,0,0.1)}
+
+.summary-card{background:linear-gradient(135deg,var(--secondary),#001a33);color:white;border-radius:16px;padding:28px}
+.summary-card h3{color:var(--accent);font-size:1.1rem;margin-bottom:15px}
+.amount-display{font-size:2.8rem;font-weight:900;color:var(--gold);margin:10px 0}
+.summary-line{display:flex;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.1);font-size:0.9rem}
+.summary-line:last-child{border-bottom:none}
+.summary-line strong{color:white}
+
+.payment-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.pay-method{padding:16px;border-radius:12px;background:var(--bg);border:2px solid var(--border);text-align:center;transition:0.3s;cursor:default}
+.pay-method:hover{border-color:var(--primary);background:var(--hover)}
+.pay-method i{font-size:1.5rem;color:var(--primary);margin-bottom:8px}
+.pay-method strong{display:block;font-size:0.9rem;color:var(--secondary);margin-bottom:4px}
+.pay-method p{color:var(--text-muted);font-size:0.8rem}
+
+.table-wrap{overflow:auto;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 16px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;font-size:0.9rem}
+th{background:var(--secondary);color:white;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase}
+tr:hover td{background:var(--bg)}
+
+.notice-card{background:#fff7ed;border:1px solid #fde68a;border-radius:14px;padding:20px;color:#92400e;line-height:1.7;font-size:0.9rem;margin-top:16px}
+.notice-card i{color:var(--primary)}
+.success-card{background:#d1fae5;border:1px solid #6ee7b7;border-radius:14px;padding:24px;color:#065f46;line-height:1.7;margin-top:16px;text-align:center}
+.success-card h3{color:#065f46;font-size:1.2rem;margin-bottom:8px}
+
+footer{background:var(--dark);color:white;padding:40px 6% 20px;margin-top:60px;text-align:center}
+footer p{color:var(--text-dim);font-size:0.85rem}
+
+@media (max-width:960px){
+.layout-grid{grid-template-columns:1fr}
+.payment-methods{grid-template-columns:1fr 1fr}
+header{padding:0 20px;height:auto;flex-wrap:wrap;padding:8px 15px}
+}
+@media (max-width:680px){
+.payment-methods,.field-grid{grid-template-columns:1fr}
+.hero-section{padding:35px 5%}
+.container{padding:25px 5%}
+.btn{padding:8px 14px;font-size:0.8rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-icon"><i class="fas fa-fire-alt"></i></div>
+    <div class="logo-text"><div>UFT <span>UNIVERSITY</span></div><div>CS Year 1 — Foundations</div></div>
+  </a>
+  <div class="header-actions">
+    <div class="lang-switch"><i class="fas fa-language"></i><select id="languageSelect"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="pt">Português</option></select></div>
+    <a class="btn btn-soft" href="index.html"><i class="fas fa-home"></i> <span id="navHome">Home</span></a>
+    <a class="btn btn-primary" href="application.html"><i class="fas fa-file-signature"></i> <span id="navApply">Apply</span></a>
+  </div>
+</header>
+
+<section class="hero-section">
+  <div class="badge"><i class="fas fa-lock"></i> <span id="heroBadge">SECURE CHECKOUT</span></div>
+  <h1 id="heroTitle">Complete Your Payment</h1>
+  <p id="heroText">Choose a payment method, review the breakdown, and submit to confirm your enrollment. A receipt will be generated instantly.</p>
+</section>
+
+<div class="container">
+  <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;color:var(--text-dim)"></i> <a href="application.html" id="breadcrumbApply">Application</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;color:var(--text-dim)"></i> <span id="breadcrumbCurrent">Payment</span></div>
+
+  <div class="layout-grid">
+    <div class="card">
+      <h2><i class="fas fa-credit-card"></i> <span id="formTitle">Checkout Form</span></h2>
+      <div class="field-grid">
+        <div class="field"><label id="lblCourse">Course</label><input id="courseName" type="text" readonly></div>
+        <div class="field"><label id="lblPrice">Total price</label><input id="coursePrice" type="text" readonly></div>
+        <div class="field"><label id="lblCardholder">Cardholder name</label><input type="text" id="cardName" placeholder="Name on card"></div>
+        <div class="field"><label id="lblCardNo">Card number</label><input type="text" id="cardNo" placeholder="1234 5678 9012 3456"></div>
+        <div class="field"><label id="lblExpiry">Expiry</label><input type="text" id="cardExpiry" placeholder="MM / YY"></div>
+        <div class="field"><label id="lblCvv">CVV</label><input type="password" id="cardCvv" placeholder="***"></div>
+        <div class="field"><label id="lblCountry">Billing country</label>
+          <select id="billingCountry">
+            <option value="Ireland">Ireland</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Other EU country">Other EU country</option>
+            <option value="Non-EU country">Non-EU country</option>
+          </select>
+        </div>
+        <div class="field"><label id="lblReceiptEmail">Receipt email</label><input type="email" id="receiptEmail" placeholder="Email for receipt"></div>
+      </div>
+      <div class="payment-methods">
+        <div class="pay-method"><i class="fas fa-credit-card"></i><strong id="pm1Title">Card</strong><p id="pm1Text">Visa, Mastercard, debit cards.</p></div>
+        <div class="pay-method"><i class="fas fa-mobile-screen"></i><strong id="pm2Title">Wallet</strong><p id="pm2Text">Apple Pay, Google Pay.</p></div>
+        <div class="pay-method"><i class="fas fa-building-columns"></i><strong id="pm3Title">Transfer</strong><p id="pm3Text">Bank transfer or invoice.</p></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <button class="btn btn-primary" onclick="submitPayment()"><i class="fas fa-lock"></i> <span id="btnPay">Pay now</span></button>
+        <button class="btn btn-soft" onclick="printPaymentSummary()"><i class="fas fa-print"></i> <span id="btnPrint">Print summary</span></button>
+      </div>
+    </div>
+
+    <div style="display:grid;gap:22px">
+      <div class="summary-card">
+        <h3><i class="fas fa-receipt"></i> <span id="summaryTitle">Summary</span></h3>
+        <div class="amount-display" id="summaryAmount">$0</div>
+        <div class="summary-line"><span id="sumCourse">Course</span><strong id="summaryCourse">Loading...</strong></div>
+        <div class="summary-line"><span id="sumFee">Processing fee</span><strong>$0</strong></div>
+        <div class="summary-line"><span id="sumTotal">Total</span><strong id="summaryTotal">$0</strong></div>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-list-check" style="color:var(--success)"></i> <span id="stepsTitle">What happens next</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th id="stepTh">Step</th><th id="outcomeTh">Outcome</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td id="step1">Payment is processed and a receipt is generated.</td></tr>
+              <tr><td>2</td><td id="step2">Course status stays pending until a live gateway confirms payment.</td></tr>
+              <tr><td>3</td><td id="step3">You can return to the application workspace with proof of payment.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="notice-card">
+        <strong><i class="fas fa-info-circle"></i> <span id="noticeTitle">Important:</span></strong> <span id="noticeText">This portal processes payments securely. Your place is confirmed after successful payment.</span>
+      </div>
+      <div class="success-card" id="receiptCard" style="display:none">
+        <i class="fas fa-check-circle" style="font-size:2.5rem;color:var(--success);margin-bottom:10px"></i>
+        <h3 id="receiptTitle">Payment Pending Verification</h3>
+        <p id="receiptText"></p>
+        <button class="btn btn-primary" style="margin-top:15px;width:100%;justify-content:center;" onclick="window.location.href='index.html'"><i class="fas fa-home"></i> <span>Return to Home</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Version <span id="siteVersion">2026.05.23.2</span> &middot; UFT University &middot; <span id="footerRights">All rights reserved</span></p>
+</footer>
+
+<script>
+const siteVersion = '2026.05.23.2';
+
+const languagePacks = {
+  en: {
+    navHome: 'Home', navApply: 'Apply',
+    heroBadge: 'SECURE CHECKOUT', heroTitle: 'Complete Your Payment',
+    heroText: 'Choose a payment method, review the breakdown, and submit. Enrollment is confirmed only after live gateway approval.',
+    breadcrumbApply: 'Application', breadcrumbCurrent: 'Payment',
+    formTitle: 'Checkout Form',
+    lblCourse: 'Course', lblPrice: 'Total price', lblCardholder: 'Cardholder name',
+    lblCardNo: 'Card number', lblExpiry: 'Expiry', lblCvv: 'CVV',
+    lblCountry: 'Billing country', lblReceiptEmail: 'Receipt email',
+    pm1Title: 'Card', pm1Text: 'Visa, Mastercard, debit cards.',
+    pm2Title: 'Wallet', pm2Text: 'Apple Pay, Google Pay.',
+    pm3Title: 'Transfer', pm3Text: 'Bank transfer or invoice.',
+    btnPay: 'Pay now', btnPrint: 'Print summary',
+    summaryTitle: 'Summary',
+    sumCourse: 'Course', sumFee: 'Processing fee', sumTotal: 'Total',
+    stepsTitle: 'What happens next',
+    stepTh: 'Step', outcomeTh: 'Outcome',
+    step1: 'Payment is processed and a receipt is generated.',
+    step2: 'Course remains pending until live gateway confirmation.',
+    step3: 'You can return to the application workspace with proof of payment.',
+    noticeTitle: 'Important:', noticeText: 'This portal processes payments securely. Your place is confirmed after successful payment.',
+    receiptTitle: 'Payment Pending Verification',
+    footerRights: 'All rights reserved'
+  },
+  es: {
+    navHome: 'Inicio', navApply: 'Solicitar',
+    heroBadge: 'PAGO SEGURO', heroTitle: 'Complete su Pago',
+    heroText: 'Elija un método de pago, revise el desglose y envíe para confirmar su inscripción.',
+    breadcrumbApply: 'Solicitud', breadcrumbCurrent: 'Pago',
+    formTitle: 'Formulario de Pago',
+    lblCourse: 'Curso', lblPrice: 'Precio total', lblCardholder: 'Titular de la tarjeta',
+    lblCardNo: 'Número de tarjeta', lblExpiry: 'Vencimiento', lblCvv: 'CVV',
+    lblCountry: 'País de facturación', lblReceiptEmail: 'Correo para recibo',
+    pm1Title: 'Tarjeta', pm1Text: 'Visa, Mastercard, débito.',
+    pm2Title: 'Billetera', pm2Text: 'Apple Pay, Google Pay.',
+    pm3Title: 'Transferencia', pm3Text: 'Transferencia bancaria.',
+    btnPay: 'Pagar ahora', btnPrint: 'Imprimir resumen',
+    summaryTitle: 'Resumen',
+    sumCourse: 'Curso', sumFee: 'Comisión', sumTotal: 'Total',
+    stepsTitle: 'Próximos pasos',
+    stepTh: 'Paso', outcomeTh: 'Resultado',
+    step1: 'El pago se procesa y se genera un recibo.',
+    step2: 'El curso sigue pendiente hasta la confirmación de la pasarela.',
+    step3: 'Puede volver al espacio de solicitud.',
+    noticeTitle: 'Importante:', noticeText: 'Este portal procesa pagos de forma segura.',
+    receiptTitle: 'Pago pendiente de verificación',
+    footerRights: 'Todos los derechos reservados'
+  },
+  fr: {
+    navHome: 'Accueil', navApply: 'Candidater',
+    heroBadge: 'PAIEMENT SÉCURISÉ', heroTitle: 'Effectuez Votre Paiement',
+    heroText: 'Choisissez un moyen de paiement, vérifiez le récapitulatif et soumettez pour confirmer votre inscription.',
+    breadcrumbApply: 'Candidature', breadcrumbCurrent: 'Paiement',
+    formTitle: 'Formulaire de Paiement',
+    lblCourse: 'Cours', lblPrice: 'Prix total', lblCardholder: 'Titulaire de la carte',
+    lblCardNo: 'Numéro de carte', lblExpiry: 'Expiration', lblCvv: 'CVV',
+    lblCountry: 'Pays de facturation', lblReceiptEmail: 'Email de réception',
+    pm1Title: 'Carte', pm1Text: 'Visa, Mastercard, débit.',
+    pm2Title: 'Portefeuille', pm2Text: 'Apple Pay, Google Pay.',
+    pm3Title: 'Virement', pm3Text: 'Virement bancaire.',
+    btnPay: 'Payer', btnPrint: 'Imprimer',
+    summaryTitle: 'Récapitulatif',
+    sumCourse: 'Cours', sumFee: 'Frais', sumTotal: 'Total',
+    stepsTitle: 'Prochaines étapes',
+    stepTh: 'Étape', outcomeTh: 'Résultat',
+    step1: 'Le paiement est traité et un reçu est généré.',
+    step2: 'Le cours reste en attente jusqu a la confirmation de la passerelle.',
+    step3: 'Vous pouvez revenir à l\'espace de candidature.',
+    noticeTitle: 'Important:', noticeText: 'Ce portail traite les paiements en toute sécurité.',
+    receiptTitle: 'Paiement en attente de vérification',
+    footerRights: 'Tous droits réservés'
+  },
+  de: {
+    navHome: 'Startseite', navApply: 'Bewerben',
+    heroBadge: 'SICHERE ZAHLUNG', heroTitle: 'Zahlung abschließen',
+    heroText: 'Wählen Sie eine Zahlungsmethode, prüfen Sie die Aufschlüsselung und bestätigen Sie Ihre Anmeldung.',
+    breadcrumbApply: 'Bewerbung', breadcrumbCurrent: 'Zahlung',
+    formTitle: 'Zahlungsformular',
+    lblCourse: 'Kurs', lblPrice: 'Gesamtpreis', lblCardholder: 'Karteninhaber',
+    lblCardNo: 'Kartennummer', lblExpiry: 'Ablauf', lblCvv: 'CVV',
+    lblCountry: 'Rechnungsland', lblReceiptEmail: 'E-Mail für Quittung',
+    pm1Title: 'Karte', pm1Text: 'Visa, Mastercard, Debit.',
+    pm2Title: 'Wallet', pm2Text: 'Apple Pay, Google Pay.',
+    pm3Title: 'Überweisung', pm3Text: 'Banküberweisung.',
+    btnPay: 'Jetzt zahlen', btnPrint: 'Drucken',
+    summaryTitle: 'Zusammenfassung',
+    sumCourse: 'Kurs', sumFee: 'Gebühr', sumTotal: 'Gesamt',
+    stepsTitle: 'Nächste Schritte',
+    stepTh: 'Schritt', outcomeTh: 'Ergebnis',
+    step1: 'Zahlung wird verarbeitet, Quittung wird erstellt.',
+    step2: 'Kurs bleibt ausstehend bis zur Gateway-Bestaetigung.',
+    step3: 'Sie können zum Bewerbungsbereich zurückkehren.',
+    noticeTitle: 'Wichtig:', noticeText: 'Dieses Portal verarbeitet Zahlungen sicher.',
+    receiptTitle: 'Zahlung wartet auf Pruefung',
+    footerRights: 'Alle Rechte vorbehalten'
+  },
+  pt: {
+    navHome: 'Início', navApply: 'Candidatar',
+    heroBadge: 'PAGAMENTO SEGURO', heroTitle: 'Efectue o seu Pagamento',
+    heroText: 'Escolha um método de pagamento, reveja o resumo e submeta para confirmar a sua inscrição.',
+    breadcrumbApply: 'Candidatura', breadcrumbCurrent: 'Pagamento',
+    formTitle: 'Formulário de Pagamento',
+    lblCourse: 'Curso', lblPrice: 'Preço total', lblCardholder: 'Titular do cartão',
+    lblCardNo: 'Número do cartão', lblExpiry: 'Validade', lblCvv: 'CVV',
+    lblCountry: 'País de faturação', lblReceiptEmail: 'Email para recibo',
+    pm1Title: 'Cartão', pm1Text: 'Visa, Mastercard, débito.',
+    pm2Title: 'Carteira', pm2Text: 'Apple Pay, Google Pay.',
+    pm3Title: 'Transferência', pm3Text: 'Transferência bancária.',
+    btnPay: 'Pagar agora', btnPrint: 'Imprimir resumo',
+    summaryTitle: 'Resumo',
+    sumCourse: 'Curso', sumFee: 'Taxa', sumTotal: 'Total',
+    stepsTitle: 'Próximos passos',
+    stepTh: 'Passo', outcomeTh: 'Resultado',
+    step1: 'O pagamento é processado e um recibo é gerado.',
+    step2: 'O curso permanece pendente ate confirmacao da gateway.',
+    step3: 'Pode voltar ao espaço de candidatura.',
+    noticeTitle: 'Importante:', noticeText: 'Este portal processa pagamentos de forma segura.',
+    receiptTitle: 'Pagamento pendente de verificacao',
+    footerRights: 'Todos os direitos reservados'
+  }
+};
+
+function applyLanguage(lang) {
+  const pack = languagePacks[lang] || languagePacks.en;
+  localStorage.setItem('uftLanguage', lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[id]').forEach(el => {
+    const key = el.id;
+    if (pack[key] !== undefined) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = pack[key];
+      } else {
+        el.textContent = pack[key];
+      }
+    }
+  });
+}
+
+const params = new URLSearchParams(window.location.search);
+const course = params.get('course') || 'Digital Learning';
+const price = Number(params.get('price') || '0');
+document.getElementById('courseName').value = course;
+document.getElementById('coursePrice').value = price ? `$${price}` : 'Pending offer';
+document.getElementById('summaryCourse').textContent = course;
+document.getElementById('summaryAmount').textContent = price ? `$${price}` : '$0';
+document.getElementById('summaryTotal').textContent = price ? `$${price}` : '$0';
+
+function submitPayment() {
+  // Validate form fields first; do not confirm payment without gateway success.
+  const cardName = document.getElementById('cardName').value.trim();
+  const cardNo = document.getElementById('cardNo').value.trim();
+  const cardExpiry = document.getElementById('cardExpiry').value.trim();
+  const cardCvv = document.getElementById('cardCvv').value.trim();
+  const receiptEmail = document.getElementById('receiptEmail').value.trim();
+  const lang = document.getElementById('languageSelect').value;
+  const pack = languagePacks[lang] || languagePacks.en;
+  const digits = cardNo.replace(/\s+/g, '');
+
+  if (!cardName || !cardNo || !cardExpiry || !cardCvv || !receiptEmail) {
+    showAlert('error', 'Validation Error', 'Please fill in all payment fields before submitting.');
+    return;
+  }
+  if (!/^\d{13,19}$/.test(digits)) {
+    showAlert('error', 'Invalid Card', 'Please enter a valid card number (13-19 digits).');
+    return;
+  }
+  if (!isValidLuhn(digits)) {
+    showAlert('error', 'Invalid Card', 'Card number failed validation. Please verify and try again.');
+    return;
+  }
+  if (!isValidExpiry(cardExpiry)) {
+    showAlert('error', 'Invalid Expiry', 'Enter expiry as MM / YY and ensure the card has not expired.');
+    return;
+  }
+  if (!/^\d{3,4}$/.test(cardCvv)) {
+    showAlert('error', 'Invalid CVV', 'CVV must be 3 or 4 digits.');
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(receiptEmail)) {
+    showAlert('error', 'Invalid Email', 'Please enter a valid email address for the receipt.');
+    return;
+  }
+
+  showAlert('info', 'Processing Payment', 'Submitting payment details for gateway validation...');
+
+  const paymentRef = 'PAY-' + Math.random().toString(36).slice(2, 10).toUpperCase();
+  const status = { value: 'Pending verification', gatewayApproved: false, paymentRef, email: receiptEmail };
+  const gatewayUrl = window.UFT_PAYMENT_GATEWAY_URL;
+
+  if (gatewayUrl) {
+    fetch(gatewayUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cardName,
+        cardLast4: digits.slice(-4),
+        cardExpiry,
+        amount: price,
+        course,
+        email: receiptEmail,
+        country: document.getElementById('billingCountry').value,
+        paymentRef
+      })
+    })
+      .then(async res => {
+        if (!res.ok) throw new Error('Gateway request failed');
+        const data = await res.json();
+        if (data && data.approved === true) {
+          status.value = 'Confirmed';
+          status.gatewayApproved = true;
+        }
+        renderPaymentStatus(status);
+      })
+      .catch(() => {
+        renderPaymentStatus(status);
+      });
+  } else {
+    renderPaymentStatus(status);
+  }
+}
+
+function isValidLuhn(num) {
+  let sum = 0;
+  let doubleDigit = false;
+  for (let i = num.length - 1; i >= 0; i -= 1) {
+    let digit = Number(num[i]);
+    if (doubleDigit) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    sum += digit;
+    doubleDigit = !doubleDigit;
+  }
+  return sum % 10 === 0;
+}
+
+function isValidExpiry(value) {
+  const match = value.match(/^\s*(\d{2})\s*\/\s*(\d{2})\s*$/);
+  if (!match) return false;
+  const month = Number(match[1]);
+  const year = Number(match[2]);
+  if (month < 1 || month > 12) return false;
+  const now = new Date();
+  const currentYear = Number(String(now.getFullYear()).slice(-2));
+  const currentMonth = now.getMonth() + 1;
+  return year > currentYear || (year === currentYear && month >= currentMonth);
+}
+
+function renderPaymentStatus(status) {
+  const receiptCard = document.getElementById('receiptCard');
+  const titleEl = document.getElementById('receiptTitle');
+  const textEl = document.getElementById('receiptText');
+  const today = new Date();
+  if (status.gatewayApproved) {
+    titleEl.textContent = 'Payment Confirmed';
+    textEl.innerHTML = `<strong>Gateway approval received.</strong><br>Course: ${course}<br>Amount: ${price ? '$' + price : '$0'}<br>Reference: ${status.paymentRef}<br>Email: ${status.email}<br>Status: Confirmed<br>Date: ${today.toLocaleDateString()}`;
+    showAlert('success', 'Payment Confirmed', 'Your payment was approved by the gateway.');
+  } else {
+    titleEl.textContent = 'Payment Pending Verification';
+    textEl.innerHTML = `<strong>No live gateway approval detected.</strong><br>Course: ${course}<br>Amount: ${price ? '$' + price : '$0'}<br>Reference: ${status.paymentRef}<br>Email: ${status.email}<br>Status: Pending verification<br>Date: ${today.toLocaleDateString()}`;
+    showAlert('info', 'Pending Verification', 'No live gateway approval was returned. Enrollment remains pending.');
+  }
+  receiptCard.style.display = 'block';
+  receiptCard.dataset.paymentRef = status.paymentRef;
+  receiptCard.dataset.paymentStatus = status.gatewayApproved ? 'Confirmed' : 'Pending verification';
+  receiptCard.dataset.paymentEmail = status.email;
+  receiptCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function printPaymentSummary() {
+  const receiptCard = document.getElementById('receiptCard');
+  const paymentRef = receiptCard.dataset.paymentRef || ('PAY-' + Math.random().toString(36).slice(2, 10).toUpperCase());
+  const paymentStatus = receiptCard.dataset.paymentStatus || 'Pending verification';
+  const paymentEmail = receiptCard.dataset.paymentEmail || document.getElementById('receiptEmail').value.trim() || '-';
+  const amountText = price ? `$${price}` : '$0';
+  const method = 'Card';
+  const dateText = new Date().toLocaleString();
+  const doc = window.open('', '_blank', 'width=900,height=700');
+  if (!doc) {
+    showAlert('error', 'Popup blocked', 'Please allow popups to print the payment summary document.');
+    return;
+  }
+  doc.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>UFT Payment Summary</title><style>body{font-family:Arial,sans-serif;padding:28px;color:#0f172a}h1{margin:0 0 6px}p{margin:0 0 14px;color:#334155}table{width:100%;border-collapse:collapse;margin-top:14px}th,td{border:1px solid #cbd5e1;padding:10px;text-align:left}th{background:#0f172a;color:#fff}.status{font-weight:700;color:${paymentStatus==='Confirmed'?'#166534':'#9a3412'}}</style></head><body><h1>UFT Payment Summary</h1><p>This printable summary is generated by the payment portal.</p><table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td>Course</td><td>${course}</td></tr><tr><td>Amount</td><td>${amountText}</td></tr><tr><td>Payer email</td><td>${paymentEmail}</td></tr><tr><td>Payment method</td><td>${method}</td></tr><tr><td>Status</td><td class="status">${paymentStatus}</td></tr><tr><td>Reference</td><td>${paymentRef}</td></tr><tr><td>Date</td><td>${dateText}</td></tr></tbody></table></body></html>`);
+  doc.document.close();
+  doc.focus();
+  doc.print();
+}
+
+// Add alert modal system
+function showAlert(type, title, msg) {
+  const existing = document.querySelector('.payment-alert-overlay');
+  if (existing) existing.remove();
+  const overlay = document.createElement('div');
+  overlay.className = 'payment-alert-overlay';
+  overlay.innerHTML = `<div style="position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99998;backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:24px;padding:40px;max-width:420px;width:90%;text-align:center;animation:modalFade 0.3s ease;box-shadow:0 50px 100px rgba(0,0,0,0.3);">
+      <div style="font-size:3rem;margin-bottom:15px;color:${type==='error'?'#ef4444':type==='info'?'var(--primary)':'var(--success)'}"><i class="fas ${type==='error'?'fa-times-circle':type==='info'?'fa-info-circle':'fa-check-circle'}"></i></div>
+      <h3 style="color:var(--secondary);margin-bottom:8px">${title}</h3>
+      <p style="color:#64748b;font-size:0.9rem;margin-bottom:20px">${msg}</p>
+      <button class="btn btn-primary" onclick="this.closest('.payment-alert-overlay').remove()" style="width:100%;justify-content:center">OK</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+
+// Init
+document.getElementById('siteVersion').textContent = siteVersion;
+const langSelect = document.getElementById('languageSelect');
+const storedLang = localStorage.getItem('uftLanguage') || 'en';
+langSelect.value = storedLang;
+langSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
+applyLanguage(storedLang);
+</script>
+</body>
+</html>

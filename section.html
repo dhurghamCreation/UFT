@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UFT | Section Explorer</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#ff5100;--primary-light:#ff7333;--primary-dark:#cc4100;--secondary:#002d5a;--secondary-light:#004080;--accent:#00f2ff;--text:#1e293b;--text-muted:#64748b;--text-dim:#94a3b8;--dark:#0f172a;--success:#10b981;--gold:#fbbf24;--bg:#f8fafc;--white:#ffffff;--border:#e2e8f0;--hover:#fff7ed}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;scroll-behavior:smooth}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--secondary)}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--primary-light)}
+::selection{background:var(--primary);color:white}
+
+.top-bar{background:var(--primary);padding:8px 6%;text-align:center;color:white;font-size:0.75rem;font-weight:700;letter-spacing:2px}
+header{background:var(--white);border-bottom:4px solid var(--primary);padding:0 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:4000;box-shadow:0 4px 20px rgba(0,0,0,0.08);height:64px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.brand-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(255,81,0,0.3)}
+.brand-icon i{color:white;font-size:1.1rem}
+.brand-text div:first-child{font-weight:900;font-size:1.2rem;color:var(--secondary);letter-spacing:-0.5px;line-height:1.2}
+.brand-text div:first-child span{color:var(--primary)}
+.brand-text div:last-child{font-size:0.5rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
+.header-actions{display:flex;gap:8px;align-items:center}
+.lang-switch{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:6px 10px}
+.lang-switch i{color:var(--primary)}
+.lang-switch select{border:none;background:transparent;color:var(--secondary);font-weight:700;outline:none;font-family:inherit;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 22px;border-radius:10px;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.3s ease;border:none;text-decoration:none;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 15px rgba(255,81,0,0.2)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(255,81,0,0.35)}
+.btn-soft{background:var(--bg);color:var(--secondary);border:1px solid var(--border)}
+.btn-soft:hover{background:var(--hover);border-color:var(--primary)}
+
+.hero{background:linear-gradient(135deg,var(--secondary),#001a33);min-height:50vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 6%}
+.hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600') center/cover;opacity:0.08}
+.hero-content{position:relative;z-index:2;width:min(1100px,92%);text-align:center;color:white}
+.badge{display:inline-block;background:rgba(255,81,0,0.2);border:1px solid rgba(255,255,255,0.2);padding:6px 20px;border-radius:50px;font-size:0.7rem;font-weight:700;letter-spacing:2px;margin-bottom:20px;color:var(--accent)}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;margin-bottom:15px;background:linear-gradient(135deg,#fff,var(--accent));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{max-width:800px;margin:0 auto 30px;color:rgba(255,255,255,0.85);font-size:1.05rem;line-height:1.8}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-actions .btn{color:white}
+
+.section{padding:60px 6%}
+.shell{max-width:1200px;margin:0 auto}
+.section-head{margin-bottom:30px}
+.section-head h2{font-size:2rem;color:var(--secondary);font-weight:900;position:relative;display:inline-block}
+.section-head h2::after{content:'';display:block;width:70px;height:4px;background:var(--primary);border-radius:2px;margin-top:10px}
+.section-head p{color:var(--text-muted);max-width:700px;line-height:1.7;margin-top:10px}
+
+.grid{display:grid;gap:22px}
+.stats-row{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:30px}
+.stat-card{background:var(--white);padding:24px;border-radius:14px;text-align:center;border-bottom:4px solid var(--primary);box-shadow:0 4px 15px rgba(0,0,0,0.03);transition:0.3s}
+.stat-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(255,81,0,0.1)}
+.stat-value{font-size:2rem;font-weight:900;color:var(--secondary);margin-bottom:6px}
+.stat-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);font-weight:600}
+
+.card{background:var(--white);border-radius:16px;padding:24px;border:1px solid var(--border);box-shadow:0 4px 15px rgba(0,0,0,0.03);transition:all 0.3s}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+
+.two-col{display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px;align-items:start}
+.panel{background:var(--white);border-radius:16px;padding:24px;border:1px solid var(--border);border-top:4px solid var(--primary)}
+.panel h3{font-size:1.15rem;color:var(--secondary);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.panel p,.panel li{line-height:1.7;color:var(--text-muted);font-size:0.9rem}
+.list{list-style:none;display:grid;gap:10px}
+.list li{display:flex;gap:10px;align-items:flex-start}
+.list i{color:var(--success);margin-top:4px}
+
+.info-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.info-card{border-top:4px solid var(--primary);padding:24px}
+.info-card i{font-size:1.8rem;color:var(--primary);margin-bottom:12px}
+.info-card h4{font-size:1.05rem;color:var(--secondary);margin-bottom:8px}
+.info-card p{color:var(--text-muted);line-height:1.7;font-size:0.9rem}
+
+.table-wrap{overflow:auto;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;font-size:0.9rem}
+th{background:var(--secondary);color:white;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase}
+tr:hover td{background:var(--bg)}
+
+.callout{background:linear-gradient(135deg,var(--secondary),#001a33);border-radius:20px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;color:white}
+.callout h3{font-size:1.4rem;margin-bottom:8px;color:white}
+.callout p{max-width:640px;color:rgba(255,255,255,0.85);line-height:1.7;font-size:0.95rem}
+.callout .btns{display:flex;gap:10px;flex-wrap:wrap}
+.callout .btn{color:white}
+
+footer{background:var(--dark);color:white;padding:40px 6% 20px;text-align:center;margin-top:60px}
+footer p{color:var(--text-dim);font-size:0.85rem}
+
+@media (max-width:900px){
+.two-col{grid-template-columns:1fr}
+.hero{min-height:40vh;padding:40px 5%}
+.section{padding:40px 5%}
+}
+@media (max-width:640px){
+header{padding:0 15px;height:auto;flex-wrap:wrap;padding:8px 12px}
+.brand-text div:first-child{font-size:1rem}
+.hero h1{font-size:2rem}
+}
+</style>
+</head>
+<body>
+<div class="top-bar">UFT SECTION EXPLORER 2026 &middot; STUDY PATHWAYS</div>
+<header>
+    <a class="brand" href="index.html">
+        <div class="brand-icon"><i class="fas fa-compass"></i></div>
+        <div class="brand-text"><div>UFT <span>Explorer</span></div><div>CS Year 1 — Foundations</div></div>
+    </a>
+    <div class="header-actions">
+        <div class="lang-switch"><i class="fas fa-language"></i><select id="languageSelect"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="pt">Português</option></select></div>
+        <a class="btn btn-soft" href="index.html"><i class="fas fa-home"></i> <span id="backHomeLabel">Home</span></a>
+        <a class="btn btn-primary" href="application.html"><i class="fas fa-file-signature"></i> <span id="applyLabel">Apply</span></a>
+    </div>
+</header>
+
+<main id="sectionRoot"></main>
+
+<footer>
+    <p>Version <span id="siteVersion">2026.05.22.1</span> &middot; UFT University &middot; All rights reserved</p>
+</footer>
+
+<script>
+const siteVersion = '2026.05.22.1';
+const query = new URLSearchParams(window.location.search);
+const sectionSlug = query.get('section') || 'undergrad';
+
+const languagePacks = {
+    en: { backHome: 'Home', apply: 'Apply', brochure: 'Brochure PDF', payment: 'Payment Portal', stats: 'Quick Facts', overviewTitle: 'Overview', whyTitle: 'Why this page is structured this way', why1: 'Clear route comparison and professional reading order.', why2: 'Visible brochure, apply, and payment actions.', why3: 'Structured tables, cards, and content blocks.', quickLinks: 'Quick links', linkApply: 'Open the application workspace', linkPayment: 'Open the payment portal', linkBrochure: 'View the brochure PDF', tablesTitle: 'Tables and pathways', tablesSub: 'Each section page uses tables so the content reads like a real university prospectus.', calloutTitle: 'Ready for the next step?', calloutApply: 'Apply now', calloutPayment: 'Payment portal' },
+    es: { backHome: 'Inicio', apply: 'Solicitar', brochure: 'PDF Folleto', payment: 'Pago', stats: 'Datos clave', overviewTitle: 'Resumen', whyTitle: 'Estructura de esta página', why1: 'Comparación clara de rutas y orden profesional.', why2: 'Acciones de folleto, solicitud y pago visibles.', why3: 'Tarjetas, tablas y bloques estructurados.', quickLinks: 'Enlaces rápidos', linkApply: 'Abrir solicitud', linkPayment: 'Ir al pago', linkBrochure: 'Ver folleto PDF', tablesTitle: 'Tablas y rutas', tablesSub: 'Cada sección usa tablas para un formato profesional.', calloutTitle: '¿Listo para el siguiente paso?', calloutApply: 'Solicitar ahora', calloutPayment: 'Portal de pago' },
+    fr: { backHome: 'Accueil', apply: 'Candidater', brochure: 'PDF Brochure', payment: 'Paiement', stats: 'Faits rapides', overviewTitle: 'Aperçu', whyTitle: 'Structure de cette page', why1: 'Comparaison claire des parcours.', why2: 'Actions brochure, candidature, paiement visibles.', why3: 'Cartes, tableaux et blocs structurés.', quickLinks: 'Liens rapides', linkApply: 'Ouvrir la candidature', linkPayment: 'Aller au paiement', linkBrochure: 'Voir la brochure PDF', tablesTitle: 'Tableaux et parcours', tablesSub: 'Chaque section utilise des tableaux pour un format professionnel.', calloutTitle: 'Prêt pour la suite ?', calloutApply: 'Candidater', calloutPayment: 'Paiement' },
+    de: { backHome: 'Startseite', apply: 'Bewerben', brochure: 'PDF Broschüre', payment: 'Zahlung', stats: 'Kurzinfos', overviewTitle: 'Übersicht', whyTitle: 'Seitenstruktur', why1: 'Klare Routenvergleich und professionelle Lesereihenfolge.', why2: 'Broschüren-, Bewerbungs- und Zahlungsaktionen sichtbar.', why3: 'Strukturierte Karten, Tabellen und Blöcke.', quickLinks: 'Schnelllinks', linkApply: 'Bewerbung öffnen', linkPayment: 'Zur Zahlung', linkBrochure: 'Broschüre PDF anzeigen', tablesTitle: 'Tabellen und Wege', tablesSub: 'Jeder Abschnitt verwendet Tabellen für ein professionelles Format.', calloutTitle: 'Bereit für den nächsten Schritt?', calloutApply: 'Jetzt bewerben', calloutPayment: 'Zahlungsportal' },
+    pt: { backHome: 'Início', apply: 'Candidatar', brochure: 'PDF Folheto', payment: 'Pagamento', stats: 'Factos rápidos', overviewTitle: 'Visão geral', whyTitle: 'Estrutura desta página', why1: 'Comparação clara de rotas e ordem profissional.', why2: 'Ações de folheto, candidatura e pagamento visíveis.', why3: 'Cartões, tabelas e blocos estruturados.', quickLinks: 'Links rápidos', linkApply: 'Abrir candidatura', linkPayment: 'Ir para pagamento', linkBrochure: 'Ver folheto PDF', tablesTitle: 'Tabelas e percursos', tablesSub: 'Cada secção usa tabelas para um formato profissional.', calloutTitle: 'Pronto para o próximo passo?', calloutApply: 'Candidatar agora', calloutPayment: 'Portal de pagamento' }
+};
+
+const sections = {
+    undergrad: {
+        badge: 'UNDERGRADUATE STUDIES',
+        title: 'Undergraduate Studies',
+        subtitle: 'A full degree route with clear progression, structured entry support, placement opportunities, and professional guidance from start to finish.',
+        intro: [
+            'This pathway is designed for students who want a complete, organised route into degree-level study. The page focuses on route choice, entry standards, progression options, and graduate outcomes.',
+            'Each programme is presented with practical modules, fee information, and clear links into application and payment so students can move from interest to action without confusion.'
+        ],
+        stats: [['4', 'Study years'], ['60', 'Credits per year'], ['EU / Non-EU', 'Fee groups'], ['1', 'Application portal']],
+        cards: [
+            { icon: 'fa-route', title: 'Choose a route', body: 'Pick a degree stream that fits your background, whether you are coming through school, mature entry, or an alternative route.' },
+            { icon: 'fa-table', title: 'Organised modules', body: 'Each year is laid out in a clear module table with stage-by-stage progression and credit balance.' },
+            { icon: 'fa-users', title: 'Student support', body: 'Academic advising, peer mentoring, and progression support are built into the page structure.' },
+            { icon: 'fa-credit-card', title: 'Fees and funding', body: 'A structured fee view shows who pays what, what applies to EU and Non-EU students, and where payment happens.' }
+        ],
+        tables: [
+            { title: 'Sample Year Plan', head: ['Year', 'Focus', 'Typical Modules', 'Credits'], rows: [['Year 1', 'Foundations', 'Programming, academic writing, mathematics, digital literacy', '60'], ['Year 2', 'Core development', 'Systems, algorithms, databases, problem solving', '60'], ['Year 3', 'Specialisation', 'AI, networking, software engineering, project work', '60'], ['Year 4', 'Integration', 'Capstone project, industry placement, advanced electives', '60']] },
+            { title: 'Entry Framework', head: ['Applicant group', 'What is assessed', 'Outcome'], rows: [['School leavers', 'Grades, subjects, and academic profile', 'Conditional or direct offer'], ['Mature applicants', 'Experience, motivation, and suitability', 'Interview or portfolio review'], ['International applicants', 'Qualification equivalency and language level', 'Offer plus visa guidance']] }
+        ],
+        cta: 'Start your undergraduate application once you have reviewed the route, fee group, and required documents.',
+        brochure: '../assets/degrees/bsc-handbook.pdf',
+        payment: 'payment.html?course=Undergraduate%20Route&price=0'
+    },
+    postgrad: {
+        badge: 'POSTGRADUATE PROGRAMMES',
+        title: 'Postgraduate Programmes',
+        subtitle: 'Master\u2019s and doctoral study built for graduates who want deeper expertise, stronger research focus, and direct career advancement.',
+        intro: ['Postgraduate study is presented as a compact decision page: programme overview, research expectations, funding possibilities, and entry requirements are organised so students can compare options quickly.'],
+        stats: [['1', 'Year masters'], ['4', 'Year PhD'], ['Research', 'Driven'], ['Funding', 'Available']],
+        cards: [{ icon: 'fa-magnifying-glass', title: 'Research first', body: 'Every programme highlights the research question, the methods, and the academic supervision route.' }, { icon: 'fa-briefcase', title: 'Career lift', body: 'Each qualification is framed around progression into specialist, managerial, or academic roles.' }, { icon: 'fa-handshake', title: 'Industry links', body: 'Live projects and employer partnerships are shown beside academic information.' }, { icon: 'fa-piggy-bank', title: 'Scholarships', body: 'Funding tables can be added beside each programme so students see support before applying.' }],
+        tables: [{ title: 'Programme Features', head: ['Programme', 'Duration', 'Mode', 'Notes'], rows: [['MSc / MA', '1 year', 'Full-time / Part-time', 'Dissertation, taught modules, assessment milestones'], ['PhD', '3-4 years', 'Full-time', 'Proposal, supervision, transfer review, thesis']] }],
+        cta: 'Use the application portal for a formal offer route, or jump to payment if your place is already confirmed.',
+        brochure: '../assets/degrees/degree-specs.pdf',
+        payment: 'payment.html?course=Postgraduate%20Programme&price=0'
+    },
+    digital: {
+        badge: 'DIGITAL LEARNING',
+        title: 'Digital Learning and Short Courses',
+        subtitle: 'Flexible online learning with clear pricing, payment, and certificate delivery.',
+        intro: ['Short courses are presented as proper purchase journeys: a course outline, a payment step, and a confirmation page after checkout.'],
+        stats: [['3', 'Featured courses'], ['6', 'Weeks max'], ['Certificate', 'Issued'], ['Payment', 'Required']],
+        cards: [{ icon: 'fa-chart-line', title: 'Data Analytics', body: 'Practical course page with module summary, price, and checkout link.' }, { icon: 'fa-shield-halved', title: 'Cybersecurity', body: 'Hands-on labs, certificate delivery, and payment gateway flow.' }, { icon: 'fa-robot', title: 'AI for Everyone', body: 'Introductory route for learners who want guided access to AI topics.' }, { icon: 'fa-credit-card', title: 'Secure payment', body: 'Students move to payment instead of being marked enrolled immediately.' }],
+        tables: [{ title: 'Course Pricing', head: ['Course', 'Length', 'Price', 'Next step'], rows: [['AI for Everyone', '4 weeks', '$299', 'Payment portal'], ['Data Analytics', '6 weeks', '$499', 'Payment portal'], ['Cybersecurity', '8 weeks', '$599', 'Payment portal']] }],
+        cta: 'Choose a course, review the price, and continue to the payment page to finalise your place.',
+        brochure: '../assets/degrees/degree-specs.pdf',
+        payment: 'payment.html?course=Digital%20Learning&price=299'
+    },
+    business: {
+        badge: 'BUSINESS SCHOOL',
+        title: 'Business School',
+        subtitle: 'A polished business prospectus page with structured fees, modules, and application links.',
+        intro: ['This section is built to read like a prospectus page: clear module structure, fees, student profiles, and employer-facing outcomes.'],
+        stats: [['AACSB', 'Aligned'], ['4', 'Year degrees'], ['MBA', 'Available'], ['Finance', 'Routes']],
+        cards: [{ icon: 'fa-chart-pie', title: 'Business strategy', body: 'Operations, analytics, and management are shown in a professional route format.' }, { icon: 'fa-bullseye', title: 'Employability', body: 'Each course shows the kind of roles graduates target after completion.' }, { icon: 'fa-people-arrows', title: 'Team projects', body: 'Case studies, presentations, and group work are positioned as core parts of the experience.' }, { icon: 'fa-file-invoice-dollar', title: 'Fees', body: 'Business prospectus content now opens a real PDF and has a dedicated payment path.' }],
+        tables: [{ title: 'Business Course Snapshot', head: ['Course', 'Duration', 'Indicative fees', 'Outcome'], rows: [['BBA Business & Technology', '4 years', '$25K/year', 'Management and product roles'], ['MBA Tech Management', '1 year', '$45K total', 'Leadership and transformation roles']] }],
+        cta: 'Review the business prospectus, then apply or proceed to payment when your offer is ready.',
+        brochure: '../assets/degrees/degree-specs.pdf',
+        payment: 'payment.html?course=Business%20School&price=0'
+    },
+    health: {
+        badge: 'HEALTH SCIENCES',
+        title: 'Health Sciences',
+        subtitle: 'Clinical pathways, placement routes, and practical skill development arranged with a clean, university-style layout.',
+        intro: ['Health pathways feature a direct view of placement hours, lab work, clinical experience, and professional registration expectations.'],
+        stats: [['Placements', 'Built in'], ['4', 'Year degrees'], ['Clinical', 'Partnered'], ['Registration', 'Supported']],
+        cards: [{ icon: 'fa-stethoscope', title: 'Clinical practice', body: 'Students can see where placements, simulations, and practical assessments fit into the route.' }, { icon: 'fa-microscope', title: 'Lab learning', body: 'Science-heavy routes show core lab modules and evidence-based practice.' }, { icon: 'fa-heart-pulse', title: 'Patient care', body: 'Health courses are presented with a professional and human-centred tone.' }, { icon: 'fa-notes-medical', title: 'Entry standards', body: 'Requirements and subject prerequisites are structured for easier comparison.' }],
+        tables: [{ title: 'Health Route Summary', head: ['Programme', 'Duration', 'Placement', 'Typical outcome'], rows: [['Nursing', '4 years', 'Yes', 'Registered nurse pathways'], ['Biomedical Science', '4 years', 'Research placement', 'Lab and diagnostics roles']] }],
+        cta: 'Check the course tables and then open the application portal for your chosen route.',
+        brochure: '../assets/degrees/degree-specs.pdf',
+        payment: 'payment.html?course=Health%20Sciences&price=0'
+    },
+    law: {
+        badge: 'SCHOOL OF LAW',
+        title: 'School of Law',
+        subtitle: 'A modern law page with modules, advocacy practice, and route comparison presented in a clear, professional structure.',
+        intro: ['The law page separates route information, professional training, and optional specialisms so students can understand the difference between routes quickly.'],
+        stats: [['4', 'Year degree'], ['Moot', 'Court'], ['Tech law', 'Specialism'], ['Practice', 'Focused']],
+        cards: [{ icon: 'fa-gavel', title: 'Advocacy', body: 'Mooting, legal method, and oral presentation routes are highlighted clearly.' }, { icon: 'fa-scale-balanced', title: 'Core law', body: 'Constitutional, contract, tort, and criminal law are laid out in sequence.' }, { icon: 'fa-shield-law', title: 'Technology law', body: 'Data privacy, AI, and cyber law are shown as specialist pathways.' }, { icon: 'fa-file-signature', title: 'Application', body: 'Application and brochure actions are now linked to actual pages and files.' }],
+        tables: [{ title: 'Law Route Summary', head: ['Route', 'Duration', 'Focus', 'Placement'], rows: [['LLB (Hons)', '4 years', 'Qualifying law degree', 'Moot court and legal clinics'], ['Law & Technology', '4 years', 'Digital regulation', 'Industry-facing projects']] }],
+        cta: 'Review the law route you want, then open the application page or the payment portal where relevant.',
+        brochure: '../assets/degrees/degree-specs.pdf',
+        payment: 'payment.html?course=Law%20School&price=0'
+    }
+};
+
+const section = sections[sectionSlug] || sections.undergrad;
+const languageSelect = document.getElementById('languageSelect');
+const versionEl = document.getElementById('siteVersion');
+
+function renderPage() {
+    const root = document.getElementById('sectionRoot');
+    const introHtml = section.intro.map(p => `<p>${p}</p>`).join('');
+    const statsHtml = section.stats.map(([v, l]) => `<div class="stat-card"><div class="stat-value">${v}</div><div class="stat-label">${l}</div></div>`).join('');
+    const cardsHtml = section.cards.map(c => `<div class="card info-card"><i class="fas ${c.icon}"></i><h4>${c.title}</h4><p>${c.body}</p></div>`).join('');
+    const tablesHtml = section.tables.map(t => `<div class="panel"><h3><i class="fas fa-table" style="color:var(--primary)"></i> ${t.title}</h3><div class="table-wrap"><table><thead><tr>${t.head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`).join('');
+
+    root.innerHTML = `
+        <section class="hero">
+            <div class="hero-content">
+                <div class="badge"><i class="fas fa-graduation-cap"></i> ${section.badge}</div>
+                <h1>${section.title}</h1>
+                <p>${section.subtitle}</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="application.html"><i class="fas fa-file-signature"></i> Apply now</a>
+                    <a class="btn btn-soft" href="${section.brochure}" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Brochure PDF</a>
+                    <a class="btn btn-soft" href="${section.payment}"><i class="fas fa-credit-card"></i> Payment portal</a>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="shell">
+                <div class="section-head">
+                    <h2>${section.title} Overview</h2>
+                    <p>${section.subtitle}</p>
+                </div>
+                <div class="grid stats-row">${statsHtml}</div>
+                <div class="two-col">
+                    <div class="panel">
+                        <h3><i class="fas fa-info-circle" style="color:var(--primary)"></i> About This Route</h3>
+                        ${introHtml}
+                    </div>
+                    <div class="panel">
+                        <h3><i class="fas fa-link" style="color:var(--primary)"></i> Quick links</h3>
+                        <ul class="list">
+                            <li><i class="fas fa-circle-info"></i><span><a href="application.html">Open the application workspace</a></span></li>
+                            <li><i class="fas fa-credit-card"></i><span><a href="${section.payment}">Open the payment portal</a></span></li>
+                            <li><i class="fas fa-file-pdf"></i><span><a href="${section.brochure}" target="_blank" rel="noopener">View the brochure PDF</a></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section" style="padding-top:0;">
+            <div class="shell">
+                <div class="grid info-grid">${cardsHtml}</div>
+            </div>
+        </section>
+        <section class="section" style="padding-top:0;">
+            <div class="shell">
+                <div class="section-head"><h2>Tables and pathways</h2><p>Each section page uses tables so the content reads like a real university prospectus.</p></div>
+                <div class="grid" style="gap:24px">${tablesHtml}</div>
+            </div>
+        </section>
+        <section class="section" style="padding-top:0;">
+            <div class="shell">
+                <div class="callout">
+                    <div>
+                        <h3>Ready for the next step?</h3>
+                        <p>${section.cta}</p>
+                    </div>
+                    <div class="btns">
+                        <a class="btn btn-primary" href="application.html"><i class="fas fa-file-signature"></i> Apply now</a>
+                        <a class="btn btn-soft" href="${section.payment}"><i class="fas fa-credit-card"></i> Payment portal</a>
+                    </div>
+                </div>
+            </div>
+        </section>`;
+    applyLanguage(languageSelect ? languageSelect.value : 'en');
+}
+
+function applyLanguage(lang) {
+    const pack = languagePacks[lang] || languagePacks.en;
+    if (versionEl) versionEl.textContent = siteVersion;
+    ['backHomeLabel','applyLabel'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = pack[id === 'backHomeLabel' ? 'backHome' : 'apply'];
+    });
+    document.documentElement.lang = lang;
+    localStorage.setItem('uftLanguage', lang);
+}
+
+if (languageSelect) {
+    const stored = localStorage.getItem('uftLanguage') || 'en';
+    languageSelect.value = stored;
+    languageSelect.addEventListener('change', e => applyLanguage(e.target.value));
+}
+if (versionEl) versionEl.textContent = siteVersion;
+renderPage();
+</script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UFT | Application Workspace</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#ff5100;--primary-light:#ff7333;--primary-dark:#cc4100;--secondary:#002d5a;--secondary-light:#004080;--accent:#00f2ff;--text:#1e293b;--text-muted:#64748b;--text-dim:#94a3b8;--dark:#0f172a;--success:#10b981;--gold:#fbbf24;--bg:#f8fafc;--white:#ffffff;--border:#e2e8f0;--hover:#fff7ed}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;scroll-behavior:smooth}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--secondary)}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--primary-light)}
+::selection{background:var(--primary);color:white}
+
+header{background:var(--white);border-bottom:4px solid var(--primary);padding:0 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:4000;box-shadow:0 4px 20px rgba(0,0,0,0.08);height:64px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(255,81,0,0.3)}
+.logo-icon i{color:white;font-size:1.1rem}
+.logo-text div:first-child{font-weight:900;font-size:1.2rem;color:var(--secondary);letter-spacing:-0.5px;line-height:1.2}
+.logo-text div:first-child span{color:var(--primary)}
+.logo-text div:last-child{font-size:0.5rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
+.header-actions{display:flex;gap:8px;align-items:center}
+.lang-switch{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:6px 10px}
+.lang-switch i{color:var(--primary)}
+.lang-switch select{border:none;background:transparent;color:var(--secondary);font-weight:700;outline:none;font-family:inherit;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 22px;border-radius:10px;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.3s ease;border:none;text-decoration:none;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 15px rgba(255,81,0,0.2)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(255,81,0,0.35)}
+.btn-soft{background:var(--bg);color:var(--secondary);border:1px solid var(--border)}
+.btn-soft:hover{background:var(--hover);border-color:var(--primary)}
+.btn-success{background:var(--success);color:white}
+.btn-success:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(16,185,129,0.3)}
+
+.hero-section{background:linear-gradient(135deg,var(--secondary),#001a33);padding:60px 6%;color:white;text-align:center}
+.hero-section .badge{display:inline-block;background:rgba(255,81,0,0.2);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);padding:6px 20px;border-radius:50px;font-size:0.7rem;font-weight:700;letter-spacing:2px;margin-bottom:20px;color:var(--accent)}
+.hero-section h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;margin-bottom:15px;background:linear-gradient(135deg,#fff,var(--accent));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-section p{max-width:700px;margin:0 auto 30px;color:rgba(255,255,255,0.85);font-size:1.05rem;line-height:1.7}
+
+.container{max-width:1200px;margin:0 auto;padding:40px 6%}
+.breadcrumb{display:flex;gap:10px;align-items:center;font-size:0.85rem;color:var(--text-muted);margin-bottom:25px;flex-wrap:wrap}
+.breadcrumb a{color:var(--primary);text-decoration:none;cursor:pointer}
+.breadcrumb a:hover{text-decoration:underline}
+.section-title{font-size:2rem;color:var(--secondary);margin-bottom:20px;font-weight:900;position:relative;display:inline-block}
+.section-title::after{content:'';display:block;width:70px;height:4px;background:var(--primary);border-radius:2px;margin-top:10px}
+
+.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:30px auto;max-width:1000px}
+.step-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:24px 18px;text-align:center;transition:0.3s}
+.step-card:hover{background:rgba(255,81,0,0.15);border-color:var(--primary);transform:translateY(-5px)}
+.step-card .num{width:40px;height:40px;border-radius:50%;background:var(--primary);color:white;display:grid;place-items:center;font-weight:900;font-size:1.2rem;margin:0 auto 12px}
+.step-card h4{color:white;font-size:0.95rem;margin-bottom:6px}
+.step-card p{color:rgba(255,255,255,0.7);font-size:0.82rem;line-height:1.5}
+
+.layout-grid{display:grid;grid-template-columns:1.3fr 0.7fr;gap:30px;align-items:start}
+.card{background:var(--white);border-radius:16px;padding:28px;border:1px solid var(--border);box-shadow:0 4px 15px rgba(0,0,0,0.03);transition:0.3s}
+.card:hover{box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+.card h2{font-size:1.3rem;color:var(--secondary);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.card h2 i{color:var(--primary)}
+.card h3{font-size:1.1rem;color:var(--secondary);margin-bottom:15px;display:flex;align-items:center;gap:10px}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:6px}
+.field label{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);font-weight:700}
+.field input,.field select,.field textarea{width:100%;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--text);padding:11px 14px;font:inherit;outline:none;transition:0.3s;font-size:0.9rem}
+.field textarea{min-height:100px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(255,81,0,0.1)}
+
+.list{list-style:none;display:grid;gap:10px}
+.list li{display:flex;align-items:flex-start;gap:10px;color:var(--text);line-height:1.6;font-size:0.9rem}
+.list i{color:var(--success);margin-top:4px;font-size:0.85rem}
+
+.table-wrap{overflow:auto;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 16px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top;font-size:0.9rem}
+th{background:var(--secondary);color:white;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase}
+tr:hover td{background:var(--bg)}
+
+.notice-card{background:#fff7ed;border:1px solid #fde68a;border-radius:14px;padding:20px;color:#92400e;line-height:1.7;font-size:0.9rem}
+.notice-card strong{color:var(--secondary)}
+.notice-card i{color:var(--primary)}
+.success-card{background:#d1fae5;border:1px solid #6ee7b7;border-radius:14px;padding:20px;color:#065f46;line-height:1.7;margin-top:20px}
+
+footer{background:var(--dark);color:white;padding:40px 6% 20px;margin-top:60px;text-align:center}
+footer p{color:var(--text-dim);font-size:0.85rem}
+
+@media (max-width:960px){
+.layout-grid{grid-template-columns:1fr}
+.steps-row{grid-template-columns:1fr 1fr}
+header{padding:0 20px;height:auto;flex-wrap:wrap;padding:8px 15px}
+}
+@media (max-width:680px){
+.steps-row,.field-grid{grid-template-columns:1fr}
+.hero-section{padding:40px 5%}
+.container{padding:25px 5%}
+header .header-actions{gap:6px}
+.btn{padding:8px 14px;font-size:0.8rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-icon"><i class="fas fa-fire-alt"></i></div>
+    <div class="logo-text"><div>UFT <span>UNIVERSITY</span></div><div>CS Year 1 — Foundations</div></div>
+  </a>
+  <div class="header-actions">
+    <div class="lang-switch"><i class="fas fa-language"></i><select id="languageSelect"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="pt">Português</option></select></div>
+    <a class="btn btn-soft" href="index.html"><i class="fas fa-home"></i> <span id="navHome">Home</span></a>
+    <a class="btn btn-primary" href="section-view.html?section=undergrad"><i class="fas fa-graduation-cap"></i> <span id="navStudies">Studies</span></a>
+  </div>
+</header>
+
+<section class="hero-section">
+  <div class="badge"><i class="fas fa-clipboard-check"></i> <span id="heroBadge">APPLICATION WORKSPACE</span></div>
+  <h1 id="heroTitle">Complete Your Application</h1>
+  <p id="heroText">A streamlined application flow with profile creation, eligibility check, document submission, and secure payment — all in one place.</p>
+  <div class="steps-row">
+    <div class="step-card"><div class="num">1</div><h4 id="step1Title">Profile</h4><p id="step1Text">Enter your personal details and preferred programme route.</p></div>
+    <div class="step-card"><div class="num">2</div><h4 id="step2Title">Eligibility</h4><p id="step2Text">Confirm your fee status and residency for accurate fee assessment.</p></div>
+    <div class="step-card"><div class="num">3</div><h4 id="step3Title">Documents</h4><p id="step3Text">Upload transcripts, ID, and supporting evidence.</p></div>
+    <div class="step-card"><div class="num">4</div><h4 id="step4Title">Payment</h4><p id="step4Text">Proceed to secure checkout to confirm your place.</p></div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right" style="font-size:0.7rem;color:var(--text-dim)"></i> <span id="breadcrumbCurrent">Application</span></div>
+
+  <div class="layout-grid">
+    <div class="card">
+      <h2><i class="fas fa-user-edit"></i> <span id="formTitle">Applicant Details</span></h2>
+      <div class="field-grid">
+        <div class="field"><label id="lblFirstname">First name</label><input type="text" id="inputFirstname" placeholder="First name"></div>
+        <div class="field"><label id="lblLastname">Last name</label><input type="text" id="inputLastname" placeholder="Last name"></div>
+        <div class="field"><label id="lblEmail">Email</label><input type="email" id="inputEmail" placeholder="name@example.com"></div>
+        <div class="field"><label id="lblPhone">Phone</label><input type="tel" id="inputPhone" placeholder="Phone number"></div>
+        <div class="field"><label id="lblProgramme">Programme</label>
+          <select id="inputProgramme">
+            <option value="Undergraduate Route">Undergraduate Route</option>
+            <option value="Postgraduate Programme">Postgraduate Programme</option>
+            <option value="Digital Learning">Digital Learning</option>
+            <option value="Business School">Business School</option>
+            <option value="Health Sciences">Health Sciences</option>
+            <option value="School of Law">School of Law</option>
+          </select>
+        </div>
+        <div class="field" id="undergradTypeField" style="display:none">
+          <label id="lblUndergradType">Undergraduate course type</label>
+          <select id="inputUndergradType">
+            <option value="BSc">BSc</option>
+            <option value="BA">BA</option>
+            <option value="BEng">BEng</option>
+            <option value="BCom">BCom</option>
+            <option value="BDS">BDS</option>
+            <option value="MPharm">MPharm</option>
+            <option value="BCL / LLB">BCL / LLB</option>
+            <option value="Integrated Masters">Integrated Masters</option>
+          </select>
+        </div>
+        <div class="field"><label id="lblFeeGroup">Fee group</label>
+          <select id="inputFeeGroup">
+            <option value="Home / Irish">Home / Irish</option>
+            <option value="EU">EU</option>
+            <option value="Non-EU">Non-EU</option>
+            <option value="Mature applicant">Mature applicant</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label id="lblStatement">Statement of interest</label>
+        <textarea id="inputStatement" placeholder="Tell us why you are applying and what you want to study."></textarea>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+        <button class="btn btn-soft" onclick="saveDraft()"><i class="fas fa-floppy-disk"></i> <span id="btnSaveDraft">Save draft</span></button>
+        <button class="btn btn-primary" onclick="continueToPayment()"><i class="fas fa-arrow-right"></i> <span id="btnContinue">Continue to payment</span></button>
+      </div>
+    </div>
+
+    <div style="display:grid;gap:22px">
+      <div class="card">
+        <h3><i class="fas fa-check-circle" style="color:var(--success)"></i> <span id="eligTitle">Eligibility Summary</span></h3>
+        <ul class="list" id="eligList">
+          <li><i class="fas fa-check-circle"></i><span id="elig1">EU and Non-EU applicants are shown separate fee assessments for clarity.</span></li>
+          <li><i class="fas fa-check-circle"></i><span id="elig2">The application workspace replaces the old login-only response with a real form.</span></li>
+          <li><i class="fas fa-check-circle"></i><span id="elig3">Brochure and prospectus links are available from the study section pages.</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-file-alt" style="color:var(--primary)"></i> <span id="docTitle">Document Checklist</span></h3>
+        <ul class="list">
+          <li><i class="fas fa-file-alt"></i><span id="doc1">Academic results or transcript</span></li>
+          <li><i class="fas fa-id-card"></i><span id="doc2">Photo ID or passport</span></li>
+          <li><i class="fas fa-language"></i><span id="doc3">Language evidence, if required</span></li>
+          <li><i class="fas fa-user-graduate"></i><span id="doc4">Personal statement or motivation letter</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-table" style="color:var(--primary)"></i> <span id="feeTitle">Fee Group Table</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th id="feeTh1">Group</th><th id="feeTh2">Criteria</th><th id="feeTh3">Next Action</th></tr></thead>
+            <tbody>
+              <tr><td id="feeR1C1">Home / Irish</td><td id="feeR1C2">Residency and programme route</td><td id="feeR1C3">Apply and review fees</td></tr>
+              <tr><td id="feeR2C1">EU</td><td id="feeR2C2">Citizenship and residency</td><td id="feeR2C3">Continue with EU fee view</td></tr>
+              <tr><td id="feeR3C1">Non-EU</td><td id="feeR3C2">Visa and international requirements</td><td id="feeR3C3">Use international guidance</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="notice-card" id="loginStateCard">
+        <strong><i class="fas fa-user-check"></i> <span id="loginLabel">Logged in status:</span></strong> <span id="loginState">Checking session...</span>
+      </div>
+      <div class="success-card" id="successCard" style="display:none">
+        <p id="successText">Your application has been saved successfully.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Version <span id="siteVersion">2026.05.23.2</span> &middot; UFT University &middot; <span id="footerRights">All rights reserved</span></p>
+</footer>
+
+<script>
+const siteVersion = '2026.05.24.0';
+
+const languagePacks = {
+  en: {
+    navHome: 'Home', navStudies: 'Studies',
+    heroBadge: 'APPLICATION WORKSPACE', heroTitle: 'Complete Your Application',
+    heroText: 'A streamlined application flow with profile creation, eligibility check, document submission, and secure payment — all in one place.',
+    step1Title: 'Profile', step1Text: 'Enter your personal details and preferred programme route.',
+    step2Title: 'Eligibility', step2Text: 'Confirm your fee status and residency for accurate fee assessment.',
+    step3Title: 'Documents', step3Text: 'Upload transcripts, ID, and supporting evidence.',
+    step4Title: 'Payment', step4Text: 'Proceed to secure checkout to confirm your place.',
+    breadcrumbCurrent: 'Application',
+    formTitle: 'Applicant Details',
+    lblFirstname: 'First name', lblLastname: 'Last name', lblEmail: 'Email', lblPhone: 'Phone',
+    lblProgramme: 'Programme', lblUndergradType: 'Undergraduate course type', lblFeeGroup: 'Fee group', lblStatement: 'Statement of interest',
+    btnSaveDraft: 'Save draft', btnContinue: 'Continue to payment',
+    eligTitle: 'Eligibility Summary',
+    elig1: 'EU and Non-EU applicants are shown separate fee assessments for clarity.',
+    elig2: 'The application workspace replaces the old login-only response with a real form.',
+    elig3: 'Brochure and prospectus links are available from the study section pages.',
+    docTitle: 'Document Checklist',
+    doc1: 'Academic results or transcript', doc2: 'Photo ID or passport',
+    doc3: 'Language evidence, if required', doc4: 'Personal statement or motivation letter',
+    feeTitle: 'Fee Group Table',
+    feeTh1: 'Group', feeTh2: 'Criteria', feeTh3: 'Next Action',
+    feeR1C1: 'Home / Irish', feeR1C2: 'Residency and programme route', feeR1C3: 'Apply and review fees',
+    feeR2C1: 'EU', feeR2C2: 'Citizenship and residency', feeR2C3: 'Continue with EU fee view',
+    feeR3C1: 'Non-EU', feeR3C2: 'Visa and international requirements', feeR3C3: 'Use international guidance',
+    loginLabel: 'Logged in status:', loginChecking: 'Checking session...', loginYes: 'Logged in and ready to continue.', loginNo: 'Not logged in yet, but you can still review the form.',
+    footerRights: 'All rights reserved'
+  },
+  es: {
+    navHome: 'Inicio', navStudies: 'Estudios',
+    heroBadge: 'ESPACIO DE SOLICITUD', heroTitle: 'Complete su Solicitud',
+    heroText: 'Un flujo de solicitud simplificado con creación de perfil, verificación de elegibilidad, envío de documentos y pago seguro, todo en un solo lugar.',
+    step1Title: 'Perfil', step1Text: 'Ingrese sus datos personales y la ruta del programa preferida.',
+    step2Title: 'Elegibilidad', step2Text: 'Confirme su estado de tarifa y residencia.',
+    step3Title: 'Documentos', step3Text: 'Cargue expedientes, identificación y evidencia.',
+    step4Title: 'Pago', step4Text: 'Proceda al pago seguro para confirmar su plaza.',
+    breadcrumbCurrent: 'Solicitud',
+    formTitle: 'Detalles del Solicitante',
+    lblFirstname: 'Nombre', lblLastname: 'Apellido', lblEmail: 'Correo', lblPhone: 'Teléfono',
+    lblProgramme: 'Programa', lblUndergradType: 'Tipo de curso de grado', lblFeeGroup: 'Grupo de tarifa', lblStatement: 'Declaración de interés',
+    btnSaveDraft: 'Guardar borrador', btnContinue: 'Continuar al pago',
+    eligTitle: 'Resumen de Elegibilidad',
+    elig1: 'Solicitantes de la UE y no UE tienen evaluaciones de tarifas separadas.',
+    elig2: 'El espacio de solicitud reemplaza la respuesta de solo inicio de sesión.',
+    elig3: 'Enlaces a folletos disponibles en las páginas de sección de estudio.',
+    docTitle: 'Lista de Documentos',
+    doc1: 'Expedientes académicos', doc2: 'Identificación o pasaporte',
+    doc3: 'Evidencia de idioma', doc4: 'Carta de motivación',
+    feeTitle: 'Tabla de Grupos de Tarifa',
+    feeTh1: 'Grupo', feeTh2: 'Criterio', feeTh3: 'Acción',
+    feeR1C1: 'Local / Irlandés', feeR1C2: 'Residencia y ruta', feeR1C3: 'Solicitar y revisar tarifas',
+    feeR2C1: 'UE', feeR2C2: 'Ciudadanía y residencia', feeR2C3: 'Continuar con vista UE',
+    feeR3C1: 'No UE', feeR3C2: 'Requisitos de visa', feeR3C3: 'Usar guía internacional',
+    loginLabel: 'Estado de inicio:', loginChecking: 'Verificando sesión...', loginYes: 'Conectado y listo.', loginNo: 'No conectado, pero puede revisar el formulario.',
+    footerRights: 'Todos los derechos reservados'
+  },
+  fr: {
+    navHome: 'Accueil', navStudies: 'Études',
+    heroBadge: 'ESPACE DE CANDIDATURE', heroTitle: 'Complétez Votre Candidature',
+    heroText: 'Un processus de candidature simplifié avec création de profil, vérification d\'éligibilité, soumission de documents et paiement sécurisé.',
+    step1Title: 'Profil', step1Text: 'Entrez vos coordonnées et la filière souhaitée.',
+    step2Title: 'Éligibilité', step2Text: 'Confirmez votre statut de frais et de résidence.',
+    step3Title: 'Documents', step3Text: 'Téléchargez relevés, pièce d\'identité et justificatifs.',
+    step4Title: 'Paiement', step4Text: 'Procédez au paiement sécurisé pour confirmer votre place.',
+    breadcrumbCurrent: 'Candidature',
+    formTitle: 'Coordonnées du Candidat',
+    lblFirstname: 'Prénom', lblLastname: 'Nom', lblEmail: 'Email', lblPhone: 'Téléphone',
+    lblProgramme: 'Programme', lblUndergradType: 'Type de cursus de licence', lblFeeGroup: 'Groupe de frais', lblStatement: 'Lettre de motivation',
+    btnSaveDraft: 'Sauvegarder', btnContinue: 'Continuer vers paiement',
+    eligTitle: 'Résumé d\'Éligibilité',
+    elig1: 'Candidats UE et non UE ont des évaluations séparées.',
+    elig2: 'L\'espace de candidature remplace l\'ancienne réponse de connexion.',
+    elig3: 'Liens vers brochures disponibles dans les pages d\'étude.',
+    docTitle: 'Liste des Documents',
+    doc1: 'Relevés académiques', doc2: 'Pièce d\'identité',
+    doc3: 'Preuve linguistique', doc4: 'Lettre de motivation',
+    feeTitle: 'Tableau des Frais',
+    feeTh1: 'Groupe', feeTh2: 'Critère', feeTh3: 'Action',
+    feeR1C1: 'Résident', feeR1C2: 'Résidence et filière', feeR1C3: 'Postuler',
+    feeR2C1: 'UE', feeR2C2: 'Citoyenneté et résidence', feeR2C3: 'Voir frais UE',
+    feeR3C1: 'Hors UE', feeR3C2: 'Visa et international', feeR3C3: 'Guide international',
+    loginLabel: 'Statut connexion:', loginChecking: 'Vérification...', loginYes: 'Connecté.', loginNo: 'Non connecté.',
+    footerRights: 'Tous droits réservés'
+  },
+  de: {
+    navHome: 'Startseite', navStudies: 'Studium',
+    heroBadge: 'BEWERBUNGSPORTAL', heroTitle: 'Ihre Bewerbung abschließen',
+    heroText: 'Ein optimierter Bewerbungsprozess mit Profilerstellung, Überprüfung der Zulassung, Dokumenteneinreichung und sicherer Zahlung.',
+    step1Title: 'Profil', step1Text: 'Geben Sie Ihre persönlichen Daten und das gewünschte Programm ein.',
+    step2Title: 'Zulassung', step2Text: 'Bestätigen Sie Ihren Gebührenstatus und Wohnsitz.',
+    step3Title: 'Dokumente', step3Text: 'Laden Sie Zeugnisse, Ausweis und Nachweise hoch.',
+    step4Title: 'Zahlung', step4Text: 'Fahren Sie mit der sicheren Zahlung fort.',
+    breadcrumbCurrent: 'Bewerbung',
+    formTitle: 'Bewerberdetails',
+    lblFirstname: 'Vorname', lblLastname: 'Nachname', lblEmail: 'E-Mail', lblPhone: 'Telefon',
+    lblProgramme: 'Programm', lblUndergradType: 'Studiengangtyp im Bachelorbereich', lblFeeGroup: 'Gebührengruppe', lblStatement: 'Interessensbekundung',
+    btnSaveDraft: 'Entwurf speichern', btnContinue: 'Weiter zur Zahlung',
+    eligTitle: 'Zulassungsübersicht',
+    elig1: 'EU- und Nicht-EU-Bewerber erhalten getrennte Gebührenbewertungen.',
+    elig2: 'Der Arbeitsbereich ersetzt die alte Anmeldeantwort.',
+    elig3: 'Broschürenlinks sind auf den Studiengangsseiten verfügbar.',
+    docTitle: 'Dokumentenliste',
+    doc1: 'Akademische Zeugnisse', doc2: 'Personalausweis oder Reisepass',
+    doc3: 'Sprachnachweis', doc4: 'Motivationsschreiben',
+    feeTitle: 'Gebührentabelle',
+    feeTh1: 'Gruppe', feeTh2: 'Kriterium', feeTh3: 'Aktion',
+    feeR1C1: 'Inländisch', feeR1C2: 'Wohnsitz und Route', feeR1C3: 'Bewerben',
+    feeR2C1: 'EU', feeR2C2: 'Staatsbürgerschaft', feeR2C3: 'EU-Gebühren anzeigen',
+    feeR3C1: 'Nicht-EU', feeR3C2: 'Visum', feeR3C3: 'Internationaler Leitfaden',
+    loginLabel: 'Anmeldestatus:', loginChecking: 'Prüfe Sitzung...', loginYes: 'Eingeloggt.', loginNo: 'Nicht eingeloggt.',
+    footerRights: 'Alle Rechte vorbehalten'
+  },
+  pt: {
+    navHome: 'Início', navStudies: 'Estudos',
+    heroBadge: 'ESPAÇO DE CANDIDATURA', heroTitle: 'Complete a sua Candidatura',
+    heroText: 'Um fluxo de candidatura simplificado com criação de perfil, verificação de elegibilidade, envio de documentos e pagamento seguro.',
+    step1Title: 'Perfil', step1Text: 'Insira os seus dados pessoais e programa preferido.',
+    step2Title: 'Elegibilidade', step2Text: 'Confirme o seu status de taxa e residência.',
+    step3Title: 'Documentos', step3Text: 'Carregue os seus documentos e identificação.',
+    step4Title: 'Pagamento', step4Text: 'Proceda ao pagamento seguro.',
+    breadcrumbCurrent: 'Candidatura',
+    formTitle: 'Detalhes do Candidato',
+    lblFirstname: 'Nome', lblLastname: 'Apelido', lblEmail: 'Email', lblPhone: 'Telefone',
+    lblProgramme: 'Programa', lblUndergradType: 'Tipo de curso de licenciatura', lblFeeGroup: 'Grupo de taxa', lblStatement: 'Declaração de interesse',
+    btnSaveDraft: 'Guardar rascunho', btnContinue: 'Continuar para pagamento',
+    eligTitle: 'Resumo de Elegibilidade',
+    elig1: 'Candidatos UE e não UE têm avaliações separadas.',
+    elig2: 'O espaço de candidatura substitui a resposta antiga de login.',
+    elig3: 'Links para brochuras disponíveis nas páginas de estudo.',
+    docTitle: 'Lista de Documentos',
+    doc1: 'Resultados académicos', doc2: 'Identificação ou passaporte',
+    doc3: 'Comprovativo de idioma', doc4: 'Carta de motivação',
+    feeTitle: 'Tabela de Taxas',
+    feeTh1: 'Grupo', feeTh2: 'Critério', feeTh3: 'Ação',
+    feeR1C1: 'Local / Irlandês', feeR1C2: 'Residência e rota', feeR1C3: 'Candidatar',
+    feeR2C1: 'UE', feeR2C2: 'Cidadania e residência', feeR2C3: 'Ver taxas UE',
+    feeR3C1: 'Não UE', feeR3C2: 'Requisitos de visto', feeR3C3: 'Guia internacional',
+    loginLabel: 'Estado do login:', loginChecking: 'A verificar sessão...', loginYes: 'Conectado.', loginNo: 'Não conectado.',
+    footerRights: 'Todos os direitos reservados'
+  }
+};
+
+function applyLanguage(lang) {
+  const pack = languagePacks[lang] || languagePacks.en;
+  localStorage.setItem('uftLanguage', lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[id]').forEach(el => {
+    const key = el.id;
+    if (pack[key] !== undefined) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = pack[key];
+      } else {
+        el.textContent = pack[key];
+      }
+    }
+  });
+  updateLoginState(lang);
+}
+
+function saveDraft() {
+  const course = document.getElementById('inputProgramme').value;
+  const undergradType = document.getElementById('inputUndergradType').value;
+  const resolvedCourse = course === 'Undergraduate Route' ? `${course} - ${undergradType}` : course;
+  localStorage.setItem('uftApplicationDraft', JSON.stringify({ course: resolvedCourse, savedAt: new Date().toISOString() }));
+  const successCard = document.getElementById('successCard');
+  successCard.style.display = 'block';
+  successCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => { successCard.style.display = 'none'; }, 4000);
+}
+
+function continueToPayment() {
+  const course = document.getElementById('inputProgramme').value;
+  const undergradType = document.getElementById('inputUndergradType').value;
+  const resolvedCourse = course === 'Undergraduate Route' ? `${course} - ${undergradType}` : course;
+  window.location.href = `payment.html?course=${encodeURIComponent(resolvedCourse)}&price=0`;
+}
+
+function updateUndergradTypeField() {
+  const programme = document.getElementById('inputProgramme').value;
+  const field = document.getElementById('undergradTypeField');
+  if (!field) return;
+  field.style.display = programme === 'Undergraduate Route' ? 'block' : 'none';
+}
+
+// Init
+document.getElementById('siteVersion').textContent = siteVersion;
+
+const langSelect = document.getElementById('languageSelect');
+const storedLang = localStorage.getItem('uftLanguage') || 'en';
+langSelect.value = storedLang;
+langSelect.addEventListener('change', (e) => {
+  applyLanguage(e.target.value);
+});
+applyLanguage(storedLang);
+document.getElementById('inputProgramme').addEventListener('change', updateUndergradTypeField);
+updateUndergradTypeField();
+
+function updateLoginState(lang) {
+  const pack = languagePacks[lang] || languagePacks.en;
+  const loginEl = document.getElementById('loginState');
+  loginEl.textContent = sessionStorage.getItem('uftLoggedIn') === '1' ? pack.loginYes : pack.loginNo;
+}
+updateLoginState(storedLang);
+</script>
+</body>
+</html>

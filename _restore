@@ -1,0 +1,33 @@
+const fs = require('fs');
+
+// Step 1: Remove fix.js tag from section-view.html
+let c = fs.readFileSync('cs-year-1/section-view.html', 'utf8');
+const tagToRemove = '<script src="cs-year-1/fix.js"></script>';
+if (c.includes(tagToRemove)) {
+  c = c.replace(tagToRemove, '');
+  fs.writeFileSync('cs-year-1/section-view.html', c);
+  console.log('Removed fix.js tag');
+} else {
+  console.log('fix.js tag not found, checking for broken version...');
+  // Try to remove any version of the tag
+  c = c.replace(/<script src=.*?fix\.js.*?><\/script>/, '');
+  fs.writeFileSync('cs-year-1/section-view.html', c);
+  console.log('Attempted cleanup');
+}
+
+// Step 2: Delete fix.js
+try { fs.unlinkSync('cs-year-1/fix.js'); console.log('Deleted fix.js'); } catch(e) { console.log('fix.js not found'); }
+
+// Step 3: Verify
+const check = fs.readFileSync('cs-year-1/section-view.html', 'utf8');
+console.log('Has fix.js ref:', check.includes('fix.js'));
+
+// Step 4: Check current state of sectionHelp share links
+const helpIdx = check.indexOf('javascript:;');
+console.log('Has javascript:; links:', helpIdx !== -1);
+
+// Step 5: Check openClubPopup - does it use societyFallback or window.open?
+const hasSocietyFallback = check.includes("document.getElementById('societyFallback')");
+console.log('Has societyFallback modal:', hasSocietyFallback);
+
+console.log('Done!');

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UFT | Leader Profile</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#ff5100;--primary-dark:#cc4100;--secondary:#002d5a;--accent:#00f2ff;--text:#1e293b;--muted:#64748b;--bg:#f8fafc;--white:#fff;--border:#e2e8f0;--dark:#0f172a;--success:#10b981;--gold:#fbbf24}
+*{box-sizing:border-box}body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(180deg,#fff, #f8fafc 45%, #eef4fb);color:var(--text)}
+a{text-decoration:none;color:inherit}.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:12px;border:none;font:inherit;font-weight:800;cursor:pointer;transition:.25s;text-decoration:none}.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff}.btn-soft{background:#fff;border:1px solid var(--border);color:var(--secondary)}.btn:hover{transform:translateY(-2px)}
+.shell{max-width:1180px;margin:0 auto;padding:0 6%}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,232,240,.9)}
+.nav{height:66px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px}.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;display:grid;place-items:center}.brand-text strong{display:block;color:var(--secondary)}.brand-text span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px}
+.hero{padding:36px 0 24px}.hero-card{background:linear-gradient(135deg,rgba(0,45,90,.98),rgba(15,23,42,.96));color:#fff;border-radius:28px;padding:28px;position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.16)}
+.hero-card::before{content:'';position:absolute;inset:-20% -10% auto auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,242,255,.18),transparent 65%);pointer-events:none}.hero-card::after{content:'';position:absolute;inset:auto auto -60px -80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,81,0,.24),transparent 60%);pointer-events:none}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center}
+.badge{display:inline-block;padding:7px 14px;border-radius:999px;background:rgba(255,81,0,.18);color:var(--accent);font-size:.72rem;font-weight:900;letter-spacing:2px;margin-bottom:12px}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2.1rem,5vw,4.2rem);line-height:1.05;margin:0 0 14px}p{line-height:1.8;color:var(--muted)}.hero-card p{color:rgba(255,255,255,.88)}
+.portrait-wrap{display:flex;justify-content:center;align-items:center}.portrait{width:min(320px,100%);aspect-ratio:1/1.2;border-radius:50% 50% 45% 45%/55% 55% 45% 45%;overflow:hidden;border:10px solid rgba(255,255,255,.15);box-shadow:0 20px 60px rgba(0,0,0,.3);background:#fff}.portrait img{width:100%;height:100%;object-fit:cover}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.actions .btn-soft{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.14)}
+.grid{display:grid;gap:20px}.two-col{grid-template-columns:1.1fr .9fr;align-items:start}.card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+.section{padding:22px 0}.section h2{color:var(--secondary);font-size:1.6rem;margin:0 0 10px}.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}.stat{background:#f8fafc;border:1px solid var(--border);border-radius:14px;padding:14px}.stat strong{display:block;color:var(--secondary);font-size:1.35rem}.stat span{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.list{padding-left:18px;color:var(--muted);line-height:1.85}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:7px 10px;border-radius:999px;background:#fff7ed;color:var(--primary);border:1px solid #fed7aa;font-size:.8rem;font-weight:800}
+.timeline{display:grid;gap:12px}.step{padding:14px;border:1px solid var(--border);border-radius:14px;background:#fff}.step strong{display:block;color:var(--secondary);margin-bottom:4px}
+.related{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.mini{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px}.mini h4{margin:0 0 8px;color:var(--secondary)}.mini p{margin:0;font-size:.9rem}
+footer{padding:26px 0 40px;text-align:center;color:var(--muted)}
+@media (max-width:900px){.hero-grid,.two-col{grid-template-columns:1fr}.portrait{max-width:260px}.shell{padding:0 5%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="shell nav">
+    <a class="brand" href="index.html"><div class="brand-mark"><i class="fas fa-fire-alt"></i></div><div class="brand-text"><strong>UFT University</strong><span>Leadership Profile</span></div></a>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-soft" href="index.html"><i class="fas fa-home"></i> Home</a><a class="btn btn-primary" href="index.html#about"><i class="fas fa-arrow-left"></i> Back to About</a></div>
+  </div>
+</header>
+<main class="shell">
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-grid">
+        <div>
+          <div class="badge">UNIVERSITY LEADERSHIP</div>
+          <h1 id="name">Profile</h1>
+          <div id="role" style="font-size:1.05rem;font-weight:800;color:var(--accent);margin-bottom:12px"></div>
+          <p id="bio"></p>
+          <div class="actions">
+            <a class="btn btn-primary" href="application.html"><i class="fas fa-file-signature"></i> Apply to UFT</a>
+            <a class="btn btn-soft" href="assets/degrees/UFT_University_Prospectus.pdf" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Prospectus PDF</a>
+          </div>
+        </div>
+        <div class="portrait-wrap"><div class="portrait"><img id="photo" alt="Leader portrait"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section two-col grid">
+    <div class="card">
+      <h2>Key achievements</h2>
+      <p>Selected highlights from this leader's work at UFT.</p>
+      <div class="timeline" id="achievements"></div>
+    </div>
+    <div class="card">
+      <h2>Leadership profile</h2>
+      <div class="stat-grid" id="stats"></div>
+      <h2 style="margin-top:18px">Focus areas</h2>
+      <div class="chips" id="focus"></div>
+    </div>
+  </section>
+
+  <section class="section card">
+    <h2>What this leader drives</h2>
+    <div class="related" id="drives"></div>
+  </section>
+</main>
+<footer>
+  Version <span id="siteVersion">2026.05.24.1</span> · UFT University · All rights reserved
+</footer>
+<script>
+const profiles = {
+  elena: {name:'Dr. Elena Vasquez',role:'President & CEO',photo:'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800',bio:'Dr. Elena Vasquez leads UFT with a focus on ethical innovation, student success, and a globally connected research culture.',stats:[['Years at UFT','8+'],['Research Funding','$2.4B'],['Startups','45+'],['Campuses','12']],focus:['Ethical AI','Global Partnerships','Student Innovation'],achievements:['Strengthened industry partnerships across Europe and North America','Expanded student innovation funding and launch support','Introduced the UFT Tech Ethics Pledge as a graduation standard'],drives:[['Student Innovation','Seed funding, venture mentoring, and cross-disciplinary project space.'],['Global Growth','Exchange agreements and new partnerships across 8 countries.'],['Ethics and Trust','Responsible technology governance built into the curriculum.']]},
+  james: {name:'Prof. James Harrington',role:'VP & Provost',photo:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800',bio:'Prof. James Harrington oversees academic quality, admissions, and student progression across the university.',stats:[['Years at UFT','6+'],['Programmes','20+'],['Employability','94%'],['Partnerships','200+']],focus:['Academic Quality','Admissions','Student Success'],achievements:['Improved graduate employment outcomes through employer-linked pathways','Expanded exchange opportunities and cross-border modules','Created more applied learning routes across undergraduate and postgraduate study'],drives:[['Academic Standards','Program validation, review, and curriculum improvement.'],['Student Support','Admissions guidance, progression support, and mentorship.'],['Career Outcomes','Internships, placements, and employer engagement.']]},
+  marcus: {name:'Prof. Marcus Chen',role:'Dean of CS',photo:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800',bio:'Prof. Marcus Chen directs the Computer Science portfolio and its links to research, labs, and industry placements.',stats:[['Labs','9'],['Research Papers','200+'],['Placement Rate','100%'],['Programs','12']],focus:['AI Labs','Placements','Software Systems'],achievements:['Launched new software engineering and AI laboratories','Supported student research teams with industry mentors','Connected graduates to employers through structured placement routes'],drives:[['AI and Systems','Advanced labs and modern computing pathways.'],['Research Culture','Publication support and project-based learning.'],['Career Launch','Portfolio reviews and placement matching.']]},
+  amir: {name:'Dr. Amir Khan',role:'Head of Research',photo:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800',bio:'Dr. Amir Khan coordinates research funding, labs, and innovation partnerships across the institution.',stats:[['Centers','12'],['Publications','500+'],['Patents','120+'],['VC Network','$200M']],focus:['Research Funding','Laboratories','Innovation Partnerships'],achievements:['Secured external funding for interdisciplinary projects','Expanded lab access for students and early-career researchers','Increased publication and conference participation opportunities'],drives:[['Research Strategy','Funding bids, publication outputs, and supervisor support.'],['Labs and Infrastructure','Access to equipment, data, and collaborative workspaces.'],['Innovation Pipeline','Patents, commercialization, and startup formation.']]}
+};
+
+const query = new URLSearchParams(window.location.search);
+const id = query.get('id') || 'elena';
+const profile = profiles[id] || profiles.elena;
+
+document.getElementById('siteVersion').textContent = '2026.05.24.1';
+document.getElementById('name').textContent = profile.name;
+document.getElementById('role').textContent = profile.role;
+document.getElementById('bio').textContent = profile.bio;
+document.getElementById('photo').src = profile.photo;
+document.getElementById('photo').alt = profile.name;
+document.getElementById('stats').innerHTML = profile.stats.map(([label, value]) => `<div class="stat"><strong>${value}</strong><span>${label}</span></div>`).join('');
+document.getElementById('focus').innerHTML = profile.focus.map(item => `<span class="chip">${item}</span>`).join('');
+document.getElementById('achievements').innerHTML = profile.achievements.map((item, index) => `<div class="step"><strong>Achievement ${index + 1}</strong><span>${item}</span></div>`).join('');
+document.getElementById('drives').innerHTML = profile.drives.map(([title, text]) => `<div class="mini"><h4>${title}</h4><p>${text}</p></div>`).join('');
+</script>
+</body>
+</html>

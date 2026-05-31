@@ -1,0 +1,1 @@
+const fs=require('fs');const p='cs-year-1/section-view.html';let c=fs.readFileSync(p,'utf8');const re=/<script src=.*?fix\.js.*?><\/script>/g;const matches=c.match(re)||[];console.log('matches found:',matches.length);c=c.replace(re,'<script src="cs-year-1/fix.js"><\/script>');fs.writeFileSync(p,c);console.log('replaced and saved');
