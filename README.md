@@ -1,1 +1,1 @@
-uft-nu.vercel.app    https link to the website.
+https://uft-nu.vercel.app/    https link to the website.
